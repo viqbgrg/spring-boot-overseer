@@ -1,5 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.service;
 
+import com.github.viqbgrg.springbootoverseer.entity.User;
+
 public interface UserService {
-    void findUserByUsername();
+    User findUserByUsername();
 }

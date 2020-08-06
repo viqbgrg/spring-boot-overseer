@@ -2,6 +2,7 @@ package com.github.viqbgrg.springbootoverseer.shiro;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,9 @@ public class UserRealmTest {
     @Test
     void login(){
         Subject subject = SecurityUtils.getSubject();
-        subject.login(new UsernamePasswordToken("xiaoming", "123456"));
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken("xiaoming", "123456");
+        subject.login(usernamePasswordToken);
         assertThat(subject.isAuthenticated()).isTrue();
+        subject.logout();
     }
 }
