@@ -1,30 +1,34 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.mgt.DefaultSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = {ShiroConfig.class})
-@ExtendWith(SpringExtension.class)
+//@SpringBootTest(classes = {ShiroConfig.class})
+//@ExtendWith(SpringExtension.class)
+//@Import(UserRealm.class)
+@SpringBootTest
 public class UserRealmTest {
 
+    @Autowired
+    private UserRealm userRealm;
+
+    // 密码正确
     @Test
-    void login(){
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken("xiaoming", "123456");
-        subject.login(usernamePasswordToken);
-        assertThat(subject.isAuthenticated()).isTrue();
-        subject.logout();
+    void login() {
+        assertThat(userRealm).isNotNull();
     }
+
+    // todo 用户不存在
+
+
+    //todo 密码正确
+
+    //todo 密码错误
+
+    //todo username 为admin的账号 拥有 admin customer 的权限
+
+    // todo 其它的用户只有customer的权限
 }
