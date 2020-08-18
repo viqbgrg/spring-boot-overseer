@@ -14,7 +14,7 @@ class UserControllerTest {
 
     @Test
     void login() {
-        ResponseEntity responseEntity = restTemplate.postForEntity("/api/account/sign_in", null, String.class);
+        ResponseEntity responseEntity = restTemplate.postForEntity("/login", null, String.class);
         System.out.println(responseEntity.getBody());
     }
 }
