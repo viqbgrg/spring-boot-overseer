@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.auth0:java-jwt:3.10.3'
     compileOnly 'org.projectlombok:lombok'
     compile group: 'org.apache.shiro', name: 'shiro-spring-boot-web-starter', version: '1.6.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
