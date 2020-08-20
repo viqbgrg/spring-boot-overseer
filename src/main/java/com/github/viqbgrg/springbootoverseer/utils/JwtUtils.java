@@ -4,9 +4,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class JwtUtils {
@@ -32,11 +34,40 @@ public class JwtUtils {
             JWTVerifier verifier = JWT.require(algorithm)
                     .withClaim("username", username)
                     .build(); //Reusable verifier instance
-            DecodedJWT jwt = verifier.verify(token);
+            verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
             //Invalid signature/claims
             return false;
         }
+    }
+
+    public static String getClaim(String token, String claim) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            String username = jwt.getClaim(claim).asString();
+            return username;
+        } catch (JWTDecodeException exception) {
+            return null;
+        }
+    }
+
+    public static Date getIssuedAt(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getIssuedAt();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param token
+     * @return true 没有过期
+     */
+    public static boolean isTokenExpired(String token) {
+        Date now = Calendar.getInstance().getTime();
+        DecodedJWT jwt = JWT.decode(token);
+        return jwt.getExpiresAt().after(now);
     }
 }
