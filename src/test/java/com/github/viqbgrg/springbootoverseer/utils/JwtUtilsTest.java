@@ -39,8 +39,8 @@ class JwtUtilsTest {
     @Test
     void isTokenExpired() throws InterruptedException {
         String token = JwtUtils.sign(username, salt, 10);
-        assertThat(JwtUtils.isTokenExpired(token)).isTrue();
-        Thread.sleep(10000);
         assertThat(JwtUtils.isTokenExpired(token)).isFalse();
+        Thread.sleep(10000);
+        assertThat(JwtUtils.isTokenExpired(token)).isTrue();
     }
 }

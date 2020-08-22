@@ -7,10 +7,12 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Calendar;
 import java.util.Date;
 
+@Slf4j
 public class JwtUtils {
     public static String sign(String username, String salt, long time) {
         try {
@@ -23,7 +25,7 @@ public class JwtUtils {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {
-            //Invalid Signing configuration / Couldn't convert Claims.
+            log.error("Token Error:{}", exception.getMessage());
             return null;
         }
     }
@@ -37,7 +39,7 @@ public class JwtUtils {
             verifier.verify(token);
             return true;
         } catch (JWTVerificationException exception) {
-            //Invalid signature/claims
+            log.error("Token Error:{}", exception.getMessage());
             return false;
         }
     }
@@ -63,11 +65,11 @@ public class JwtUtils {
 
     /**
      * @param token
-     * @return true 没有过期
+     * @return true 过期
      */
     public static boolean isTokenExpired(String token) {
         Date now = Calendar.getInstance().getTime();
         DecodedJWT jwt = JWT.decode(token);
-        return jwt.getExpiresAt().after(now);
+        return jwt.getExpiresAt().before(now);
     }
 }
