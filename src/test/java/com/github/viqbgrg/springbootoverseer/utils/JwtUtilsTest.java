@@ -7,8 +7,8 @@ import java.util.Date;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class JwtUtilsTest {
-    private String username = "xiaoming";
-    private String salt = "12345";
+    private static String username = "xiaoming";
+    private static String salt = "12345";
 
     @Test
     void sign() {

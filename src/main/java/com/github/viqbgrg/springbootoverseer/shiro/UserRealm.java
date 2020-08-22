@@ -8,9 +8,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.springframework.stereotype.Component;
 
-@Component
 public class UserRealm extends AuthorizingRealm {
     public static final String ADMIN_ROLE = "admin";
     public static final String CUSTOME_ROLE = "customer";
