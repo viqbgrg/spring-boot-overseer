@@ -4,4 +4,6 @@ import com.github.viqbgrg.springbootoverseer.entity.User;
 
 public interface UserService {
     User findUserByUsername(String username);
+
+    boolean addUser(User user);
 }

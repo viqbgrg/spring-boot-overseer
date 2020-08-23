@@ -10,4 +10,9 @@ public class UserServiceImpl implements UserService {
     public User findUserByUsername(String username) {
         return null;
     }
+
+    @Override
+    public boolean addUser(User user) {
+        return false;
+    }
 }
