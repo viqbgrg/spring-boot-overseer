@@ -26,6 +26,7 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
+
     @Bean
     public Realm userRealm(UserService userService) {
         UserRealm myShiroRealm = new UserRealm(userService);
@@ -38,15 +39,14 @@ public class ShiroConfig {
         return myShiroRealm;
     }
 
-    @Bean
-    public ShiroFilterFactoryBean shiroFilterFactoryBean(SecurityManager securityManager, ShiroFilterChainDefinition shiroFilterChainDefinition) {
+    @Bean("shiroFilter")
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager, ShiroFilterChainDefinition shiroFilterChainDefinition) {
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
         Map<String, Filter> filterMap = filterFactoryBean.getFilters();
         filterMap.put("jwtToken", jwtAuthFilter());
         filterFactoryBean.setSecurityManager(securityManager);
         filterFactoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
         filterFactoryBean.setFilters(filterMap);
-
         return filterFactoryBean;
     }
 
@@ -62,10 +62,10 @@ public class ShiroConfig {
     }
 
     @Bean
-    protected ShiroFilterChainDefinition shiroFilterChainDefinition() {
+    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
-        chainDefinition.addPathDefinition("/user/login", "noSessionCreation,anon");
-        chainDefinition.addPathDefinition("/user/signIn", "noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/login", "noSessionCreation,anon");
+        chainDefinition.addPathDefinition("/signIn", "noSessionCreation,anon");
 //        chainDefinition.addPathDefinition("/logout", "noSessionCreation,authcToken[permissive]");
 //        chainDefinition.addPathDefinition("/image/**", "anon");
 //        chainDefinition.addPathDefinition("/admin/**", "noSessionCreation,authcToken,anyRole[admin,manager]"); //只允许admin或manager角色的用户访问
@@ -89,7 +89,6 @@ public class ShiroConfig {
         return authenticator;
     }
 
-    @Bean(name = "jwtToken")
     protected JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter();
     }

@@ -14,6 +14,6 @@ public class JwtAuthFilter extends AuthenticatingFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        return false;
+        return true;
     }
 }

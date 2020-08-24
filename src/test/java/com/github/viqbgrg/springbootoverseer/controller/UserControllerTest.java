@@ -24,6 +24,8 @@ class UserControllerTest {
 
     @Test
     void login() {
+        String body = restTemplate.getForEntity("/login", String.class).getBody();
+        assertThat(body).isEqualTo("Hello World");
     }
 
     @Test
@@ -32,7 +34,7 @@ class UserControllerTest {
         user.setUsername("xiaoming");
         user.setPassword("123456");
         when(userService.addUser(user)).thenReturn(true);
-        ResponseEntity responseEntity = restTemplate.postForEntity("/user/signIn", user, Void.class);
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        ResponseEntity responseEntity = restTemplate.postForEntity("/signIn", user, Void.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 }
