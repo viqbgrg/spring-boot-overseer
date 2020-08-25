@@ -22,6 +22,8 @@ import java.util.Map;
 
 /**
  * shiro 配置文件
+ *
+ * @author nnj
  */
 @Configuration
 public class ShiroConfig {
@@ -53,7 +55,7 @@ public class ShiroConfig {
     @Bean
     protected FilterRegistrationBean filterShiroFilterRegistrationBean(ShiroFilterFactoryBean shiroFilterFactoryBean) throws Exception {
 
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        FilterRegistrationBean<AbstractShiroFilter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setDispatcherTypes(DispatcherType.REQUEST, DispatcherType.ASYNC);
         filterRegistrationBean.setFilter((AbstractShiroFilter) shiroFilterFactoryBean.getObject());
         filterRegistrationBean.setOrder(1);
@@ -66,11 +68,6 @@ public class ShiroConfig {
         DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
         chainDefinition.addPathDefinition("/login", "noSessionCreation,anon");
         chainDefinition.addPathDefinition("/signIn", "noSessionCreation,anon");
-//        chainDefinition.addPathDefinition("/logout", "noSessionCreation,authcToken[permissive]");
-//        chainDefinition.addPathDefinition("/image/**", "anon");
-//        chainDefinition.addPathDefinition("/admin/**", "noSessionCreation,authcToken,anyRole[admin,manager]"); //只允许admin或manager角色的用户访问
-//        chainDefinition.addPathDefinition("/article/list", "noSessionCreation,authcToken");
-//        chainDefinition.addPathDefinition("/article/*", "noSessionCreation,authcToken[permissive]");
         chainDefinition.addPathDefinition("/**", "noSessionCreation,jwtToken");
         return chainDefinition;
     }
