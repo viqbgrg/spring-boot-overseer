@@ -6,6 +6,9 @@ import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+/**
+ * @author viqbgrg
+ */
 public class JwtAuthFilter extends AuthenticatingFilter {
     @Override
     protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) throws Exception {

@@ -1,5 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
+import com.github.viqbgrg.springbootoverseer.exception.MyException;
 import org.apache.shiro.ShiroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,4 +20,13 @@ public class ExceptionController {
     public ResponseEntity<String> handle401(ShiroException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
+
+    /**
+     * 自定义异常
+     */
+    @ExceptionHandler(MyException.class)
+    public ResponseEntity<String> myException(MyException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
 }
+

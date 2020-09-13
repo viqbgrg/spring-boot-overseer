@@ -1,0 +1,4 @@
+logging:
+  file:
+    path: D:/logs/
+    max-size: 10KB

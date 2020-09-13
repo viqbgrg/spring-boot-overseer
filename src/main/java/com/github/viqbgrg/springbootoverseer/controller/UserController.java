@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login() {
+    public ResponseEntity<Void> login(@RequestBody User user) {
         log.info("进入登陆方法");
         return ResponseEntity.ok().build();
     }
