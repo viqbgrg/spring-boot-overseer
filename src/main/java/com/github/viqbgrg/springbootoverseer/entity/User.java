@@ -14,9 +14,8 @@ public class User {
     @Size(min = 6)
     private String username;
     @NotNull
-    @Size(min = 8, message = "密码不能小于6位")
-    @Size(max = 64, message = "密码不能小于6位")
+    @Size(min = 8, message = "密码不能小于8位")
+    @Size(max = 64, message = "密码不能大于64位")
     private String password;
-    @NotNull
     private String salt;
 }
