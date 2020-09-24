@@ -38,7 +38,16 @@ class UserControllerTest {
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
-    // todo 用户名, 密码不符合规则 验证 然后统一异常去返回前台数据
+    // 用户名, 密码不符合规则 验证 然后统一异常去返回前台数据
+    @Test
+    void signInValidatedTest() {
+        User user = new User();
+        user.setUsername("xiao");
+        user.setPassword("123");
+        when(userService.addUser(user)).thenReturn(true);
+        ResponseEntity responseEntity = restTemplate.postForEntity("/signIn", user, Void.class);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
     // todo 用户名已注册
     // TODO: 2020/8/27 027 登陆成功, 前端接收 token
     // TODO: 2020/8/27 027 用户名和密码错误
