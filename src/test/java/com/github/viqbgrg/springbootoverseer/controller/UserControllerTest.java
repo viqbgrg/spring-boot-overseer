@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
-import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.model.Users;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +30,21 @@ class UserControllerTest {
 
     @Test
     void signIn() {
-        User user = new User();
-        user.setUsername("xiaoming");
-        user.setPassword("123456");
-        when(userService.addUser(user)).thenReturn(true);
-        ResponseEntity responseEntity = restTemplate.postForEntity("/signIn", user, Void.class);
+        Users users = new Users();
+        users.setUsername("xiaoming");
+        users.setPassword("123456");
+        when(userService.signIn(users)).thenReturn(true);
+        ResponseEntity responseEntity = restTemplate.postForEntity("/signIn", users, Void.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     // 用户名, 密码不符合规则 验证 然后统一异常去返回前台数据
     @Test
     void signInValidatedTest() {
-        User user = new User();
+        Users user = new Users();
         user.setUsername("xiao");
         user.setPassword("123");
-        when(userService.addUser(user)).thenReturn(true);
+        when(userService.signIn(user)).thenReturn(true);
         ResponseEntity responseEntity = restTemplate.postForEntity("/signIn", user, Void.class);
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
