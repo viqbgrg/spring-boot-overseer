@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.common;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.common;
 
 import okhttp3.*;
 

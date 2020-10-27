@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.exception;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception;
 
 /**
  * @author viqbgrg

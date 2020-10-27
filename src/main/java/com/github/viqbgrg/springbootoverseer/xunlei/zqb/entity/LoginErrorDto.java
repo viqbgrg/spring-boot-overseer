@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.entity;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

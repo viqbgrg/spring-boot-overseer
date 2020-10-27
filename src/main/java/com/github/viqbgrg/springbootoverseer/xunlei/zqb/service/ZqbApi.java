@@ -1,8 +1,9 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.service;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 
-import com.github.viqbgrg.springbootoverseer.xunlei.common.HttpUtil;
-import com.github.viqbgrg.springbootoverseer.xunlei.entity.ApiCookies;
-import com.github.viqbgrg.springbootoverseer.xunlei.entity.LoginResultDto;
+
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiCookies;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.LoginResultDto;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 

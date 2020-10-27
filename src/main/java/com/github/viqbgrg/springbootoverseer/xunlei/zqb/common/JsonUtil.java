@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.common;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

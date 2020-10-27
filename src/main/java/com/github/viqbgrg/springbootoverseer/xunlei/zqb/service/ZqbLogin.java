@@ -1,12 +1,12 @@
-package com.github.viqbgrg.springbootoverseer.xunlei.service;
+package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 
 import cn.hutool.crypto.SecureUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.viqbgrg.springbootoverseer.xunlei.common.HttpUtil;
-import com.github.viqbgrg.springbootoverseer.xunlei.common.JsonUtil;
-import com.github.viqbgrg.springbootoverseer.xunlei.entity.*;
-import com.github.viqbgrg.springbootoverseer.xunlei.exception.WkyUnknownErrorException;
-import com.github.viqbgrg.springbootoverseer.xunlei.exception.WkyUsernamePasswordException;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 import lombok.extern.java.Log;
 
 import java.io.IOException;
