@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-public class UserController {
+public class LoginController {
 
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    public LoginController(UserService userService) {
         this.userService = userService;
     }
 
