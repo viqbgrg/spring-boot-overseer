@@ -1,7 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
+import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
 import com.github.viqbgrg.springbootoverseer.entity.User;
-import com.github.viqbgrg.springbootoverseer.model.Users;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<Void> signIn(@Validated @RequestBody Users user) {
+    public ResponseEntity<Void> signIn(@RequestBody UserSignInDto user) {
         userService.signIn(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

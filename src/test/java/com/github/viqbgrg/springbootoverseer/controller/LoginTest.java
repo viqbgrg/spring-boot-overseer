@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
-import com.github.viqbgrg.springbootoverseer.model.Users;
+import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class LoginTest {
 
     @Test
     void signIn() {
-        Users users = new Users();
+        UserSignInDto users = new UserSignInDto();
         users.setUsername("xiaoming");
         users.setPassword("123456");
         when(userService.signIn(users)).thenReturn(true);
@@ -36,7 +36,7 @@ public class LoginTest {
     // 用户名, 密码不符合规则 验证 然后统一异常去返回前台数据
     @Test
     void signInValidatedTest() {
-        Users user = new Users();
+        UserSignInDto user = new UserSignInDto();
         user.setUsername("xiao");
         user.setPassword("123");
         when(userService.signIn(user)).thenReturn(true);
