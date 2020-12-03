@@ -1,5 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(LoginController.class)
 public class LoginControllerTest {
@@ -19,13 +24,25 @@ public class LoginControllerTest {
     @MockBean
     private UserService userService;
 
+    @Autowired
+    ObjectMapper objectMapper;
 
+    /**
+     * 正常注册
+     * 用户名不存在
+     * 密码符合规则
+     *
+     * @throws Exception
+     */
     @Test
-    void signIn() {
+    void signIn() throws Exception {
         UserSignInDto users = new UserSignInDto();
         users.setUsername("xiaoming");
         users.setPassword("123456");
+        users.setEmail("11111@qq.com");
         when(userService.signIn(users)).thenReturn(true);
+        this.mvc.perform(post("/signIn").content(objectMapper.writeValueAsString(users)))
+                .andDo(print()).andExpect(status().isOk()).andExpect(content().string("Honda Civic"));
     }
 
     // 用户名, 密码不符合规则 验证 然后统一异常去返回前台数据
