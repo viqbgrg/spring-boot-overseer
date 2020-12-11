@@ -41,7 +41,7 @@ public class LoginControllerTest {
         users.setPassword("123456");
         users.setEmail("11111@qq.com");
         when(userService.signIn(users)).thenReturn(true);
-        this.mvc.perform(post("/signIn").content(objectMapper.writeValueAsString(users)))
+        this.mvc.perform(post("/signIn", users))
                 .andDo(print()).andExpect(status().isOk()).andExpect(content().string("Honda Civic"));
     }
 
