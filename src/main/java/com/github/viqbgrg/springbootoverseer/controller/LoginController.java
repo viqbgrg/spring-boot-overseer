@@ -26,7 +26,7 @@ public class LoginController {
     }
 
     @PostMapping("/signIn")
-    public ResponseEntity<Void> signIn(@RequestBody UserSignInDto user) {
+    public ResponseEntity<Void> signIn(@Validated @RequestBody UserSignInDto user) {
         userService.signIn(user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
