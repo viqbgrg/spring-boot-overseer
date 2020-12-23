@@ -9,13 +9,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @author viqbgrg
  * 统一异常管理
  */
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ExceptionController {
     /**
      * 捕捉shiro的异常
