@@ -18,6 +18,4 @@ public class ExceptionController implements ProblemHandling {
     public ExceptionController(Environment env) {
         this.env = env;
     }
-
-
 }
