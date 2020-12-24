@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.model.User;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.PasswordMatcher;

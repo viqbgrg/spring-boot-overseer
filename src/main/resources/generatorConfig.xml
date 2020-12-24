@@ -9,12 +9,12 @@
 
         <javaModelGenerator targetPackage="com.github.viqbgrg.springbootoverseer.model" targetProject="src/main/java"/>
 
-        <sqlMapGenerator targetPackage="com.github.viqbgrg.springbootoverseer.mapper"
+        <sqlMapGenerator targetPackage="mapper"
                          targetProject="src/main/resources"/>
 
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.github.viqbgrg.springbootoverseer.mapper"
                              targetProject="src/main/java"/>
 
-        <table tableName="Users"/>
+        <table tableName="user"/>
     </context>
 </generatorConfiguration>

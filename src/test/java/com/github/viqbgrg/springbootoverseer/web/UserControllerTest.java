@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.controller;
+package com.github.viqbgrg.springbootoverseer.web;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

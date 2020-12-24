@@ -1,10 +1,9 @@
 package com.github.viqbgrg.springbootoverseer.service;
 
-import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
-import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.model.User;
 
 public interface UserService {
     User findUserByUsername(String username);
 
-    boolean signIn(UserSignInDto user);
+    boolean signIn(User user);
 }

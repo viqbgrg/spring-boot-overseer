@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.model.User;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -52,7 +52,7 @@ public class JwtRealm extends AuthorizingRealm {
         }
         String username = JwtUtils.getClaim(jwtToken, "username");
         User userByUsername = userService.findUserByUsername(username);
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userByUsername, userByUsername.getSalt(), "jwtRealm");
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(userByUsername, "userByUsername.getSalt()", "jwtRealm");
         return authenticationInfo;
     }
 }

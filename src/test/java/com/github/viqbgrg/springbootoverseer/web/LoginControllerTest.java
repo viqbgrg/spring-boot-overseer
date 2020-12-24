@@ -1,9 +1,11 @@
-package com.github.viqbgrg.springbootoverseer.controller;
+package com.github.viqbgrg.springbootoverseer.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
+import com.github.viqbgrg.springbootoverseer.model.User;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,8 +42,10 @@ public class LoginControllerTest {
 //        users.setUsername("xiaoming");
         users.setPassword("123456");
         users.setEmail("11111@qq.com");
-        when(userService.signIn(users)).thenReturn(true);
-        this.mvc.perform(post("/signIn").contentType(MediaType.APPLICATION_JSON)
+        User users1 = new User();
+        BeanUtils.copyProperties(users, users1);
+        when(userService.signIn(users1)).thenReturn(true);
+        this.mvc.perform(post("/signIn")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(users)))
                 .andDo(print()).andExpect(status().isCreated());
@@ -53,7 +57,6 @@ public class LoginControllerTest {
         UserSignInDto user = new UserSignInDto();
         user.setUsername("xiao");
         user.setPassword("123");
-        when(userService.signIn(user)).thenReturn(true);
     }
     // todo 用户名已注册
     // TODO: 2020/8/27 027 登陆成功, 前端接收 token
