@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.model.User;
 import com.github.viqbgrg.springbootoverseer.service.UserService;
 import com.github.viqbgrg.springbootoverseer.service.impl.UserServiceImpl;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
@@ -37,7 +37,6 @@ public class JwtRealmTest {
         User user = new User();
         user.setUsername("zhang");
         user.setPassword("123456");
-        user.setSalt("2125453465");
         this.user = user;
         DefaultSecurityManager securityManager = new DefaultSecurityManager();
         securityManager.setRealm(jwtRealm);
@@ -49,7 +48,7 @@ public class JwtRealmTest {
     // token 正确
     @Test
     void reLogin() {
-        String token = JwtUtils.sign(user.getUsername(), user.getSalt(), 1000);
+        String token = JwtUtils.sign(user.getUsername(), "user.getSalt()", 1000);
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(token);
         subject.login(jwtAuthenticationToken);
         assertThat(subject.isAuthenticated()).isTrue();

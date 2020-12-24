@@ -39,7 +39,7 @@ public class LoginControllerTest {
     @Test
     void signIn() throws Exception {
         UserSignInDto users = new UserSignInDto();
-//        users.setUsername("xiaoming");
+        users.setUsername("xiaoming");
         users.setPassword("123456");
         users.setEmail("11111@qq.com");
         User users1 = new User();
