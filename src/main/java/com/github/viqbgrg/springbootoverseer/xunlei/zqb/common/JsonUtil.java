@@ -38,7 +38,7 @@ public class JsonUtil {
         return mapper.writeValueAsString(value);
     }
 
-    public static Map<String, Object> stringToObject(String jsonSource) throws JsonProcessingException {
+    public static Map stringToObject(String jsonSource) throws JsonProcessingException {
         return mapper.readValue(jsonSource, Map.class);
     }
 
