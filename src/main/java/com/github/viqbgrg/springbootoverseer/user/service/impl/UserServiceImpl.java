@@ -18,7 +18,12 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     @Override
-    public com.github.viqbgrg.springbootoverseer.model.User findUserByUsername(String username) {
+    public User findUserByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public Object signIn(User users1) {
         return null;
     }
 }

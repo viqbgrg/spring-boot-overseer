@@ -13,5 +13,7 @@ import com.github.viqbgrg.springbootoverseer.user.entity.User;
  */
 public interface IUserService extends IService<User> {
 
-    com.github.viqbgrg.springbootoverseer.model.User findUserByUsername(String username);
+    User findUserByUsername(String username);
+
+    Object signIn(User users1);
 }
