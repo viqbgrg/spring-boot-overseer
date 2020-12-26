@@ -34,8 +34,6 @@ public class UserController {
     public ResponseEntity<Void> signIn(@Validated @RequestBody UserSignInDto user) {
         User users = new User();
         BeanUtils.copyProperties(user, users);
-//        userService.count()
-        userService.save(users);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return userService.signIn(users) ? ResponseEntity.status(HttpStatus.CREATED).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

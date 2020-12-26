@@ -23,7 +23,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public Object signIn(User users1) {
-        return null;
+    public boolean signIn(User users1) {
+        return false;
     }
 }

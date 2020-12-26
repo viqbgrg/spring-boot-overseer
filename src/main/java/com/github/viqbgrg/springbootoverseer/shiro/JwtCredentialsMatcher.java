@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.model.User;
+import com.github.viqbgrg.springbootoverseer.user.entity.User;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

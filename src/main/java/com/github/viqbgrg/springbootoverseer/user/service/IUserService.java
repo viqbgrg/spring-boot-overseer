@@ -15,5 +15,5 @@ public interface IUserService extends IService<User> {
 
     User findUserByUsername(String username);
 
-    Object signIn(User users1);
+    boolean signIn(User users1);
 }

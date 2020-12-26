@@ -1,6 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.mapper;
 
-import com.github.viqbgrg.springbootoverseer.model.User;
+import com.github.viqbgrg.springbootoverseer.user.entity.User;
+import com.github.viqbgrg.springbootoverseer.user.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;

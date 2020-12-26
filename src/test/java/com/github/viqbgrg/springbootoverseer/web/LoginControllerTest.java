@@ -2,7 +2,7 @@ package com.github.viqbgrg.springbootoverseer.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
-import com.github.viqbgrg.springbootoverseer.model.User;
+import com.github.viqbgrg.springbootoverseer.user.entity.User;
 import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,7 +43,6 @@ public class LoginControllerTest {
         users.setEmail("11111@qq.com");
         User users1 = new User();
         BeanUtils.copyProperties(users, users1);
-        when(userService.signIn(users1)).thenReturn(true);
         this.mvc.perform(post("/signIn")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsBytes(users)))
