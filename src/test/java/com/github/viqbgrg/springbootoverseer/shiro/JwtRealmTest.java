@@ -1,8 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
 import com.github.viqbgrg.springbootoverseer.model.User;
-import com.github.viqbgrg.springbootoverseer.service.UserService;
-import com.github.viqbgrg.springbootoverseer.service.impl.UserServiceImpl;
+import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.user.service.impl.UserServiceImpl;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.DefaultSecurityManager;
@@ -28,7 +28,7 @@ public class JwtRealmTest {
     private JwtRealm jwtRealm;
 
     @MockBean
-    private UserService userService;
+    private IUserService userService;
 
     private Subject subject;
 

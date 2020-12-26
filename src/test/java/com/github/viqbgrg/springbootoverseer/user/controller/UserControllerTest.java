@@ -37,4 +37,8 @@ class UserControllerTest {
         this.mvc.perform(post("/user/signIn").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(userSignInDto)))
                 .andExpect(status().isCreated());
     }
+
+    /**
+     * 用户名已存在
+     */
 }

@@ -3,7 +3,6 @@ package com.github.viqbgrg.springbootoverseer.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
 import com.github.viqbgrg.springbootoverseer.model.User;
-import com.github.viqbgrg.springbootoverseer.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

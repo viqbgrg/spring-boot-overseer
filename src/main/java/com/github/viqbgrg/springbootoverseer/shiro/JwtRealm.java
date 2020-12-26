@@ -1,7 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
 import com.github.viqbgrg.springbootoverseer.model.User;
-import com.github.viqbgrg.springbootoverseer.service.UserService;
+import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -14,9 +14,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 
 public class JwtRealm extends AuthorizingRealm {
 
-    private UserService userService;
+    private IUserService userService;
 
-    public JwtRealm(JwtCredentialsMatcher jwtCredentialsMatcher, UserService userService) {
+    public JwtRealm(JwtCredentialsMatcher jwtCredentialsMatcher, IUserService userService) {
         this.setCredentialsMatcher(jwtCredentialsMatcher);
         this.userService = userService;
     }

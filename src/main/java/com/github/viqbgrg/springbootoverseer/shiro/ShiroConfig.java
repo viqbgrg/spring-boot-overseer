@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.service.UserService;
+import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
 import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.pam.FirstSuccessfulStrategy;
 import org.apache.shiro.authc.pam.ModularRealmAuthenticator;
@@ -30,13 +30,13 @@ public class ShiroConfig {
 
 
     @Bean
-    public Realm userRealm(UserService userService) {
+    public Realm userRealm(IUserService userService) {
         UserRealm myShiroRealm = new UserRealm(userService);
         return myShiroRealm;
     }
 
     @Bean
-    public Realm jwtRealm(JwtCredentialsMatcher jwtCredentialsMatcher, UserService userService) {
+    public Realm jwtRealm(JwtCredentialsMatcher jwtCredentialsMatcher, IUserService userService) {
         JwtRealm myShiroRealm = new JwtRealm(jwtCredentialsMatcher, userService);
         return myShiroRealm;
     }

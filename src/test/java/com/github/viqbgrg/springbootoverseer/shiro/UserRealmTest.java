@@ -1,8 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
 import com.github.viqbgrg.springbootoverseer.model.User;
-import com.github.viqbgrg.springbootoverseer.service.UserService;
-import com.github.viqbgrg.springbootoverseer.service.impl.UserServiceImpl;
+import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.user.service.impl.UserServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class UserRealmTest {
 
     @MockBean
-    private UserService userService;
+    private IUserService userService;
 
     @Autowired
     private UserRealm userRealm;

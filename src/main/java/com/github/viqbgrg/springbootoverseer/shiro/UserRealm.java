@@ -1,7 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
 import com.github.viqbgrg.springbootoverseer.model.User;
-import com.github.viqbgrg.springbootoverseer.service.UserService;
+import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -12,9 +12,9 @@ import org.apache.shiro.subject.PrincipalCollection;
 public class UserRealm extends AuthorizingRealm {
     public static final String ADMIN_ROLE = "admin";
     public static final String CUSTOME_ROLE = "customer";
-    private UserService userService;
+    private IUserService userService;
 
-    public UserRealm(UserService userService) {
+    public UserRealm(IUserService userService) {
         PasswordMatcher passwordMatcher = new PasswordMatcher();
         this.setCredentialsMatcher(passwordMatcher);
         this.userService = userService;
