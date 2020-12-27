@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -27,5 +28,8 @@ public class User implements Serializable {
 
     private Boolean locked;
 
+    private Date createAt;
+
+    private Date updateAt;
 
 }
