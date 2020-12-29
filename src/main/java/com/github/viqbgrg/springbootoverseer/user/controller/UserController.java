@@ -1,9 +1,14 @@
 package com.github.viqbgrg.springbootoverseer.user.controller;
 
 
+import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
 import com.github.viqbgrg.springbootoverseer.user.entity.User;
 import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
     private IUserService userService;
+//    private Subject
+
 
     public UserController(IUserService userService) {
         this.userService = userService;
@@ -36,4 +44,13 @@ public class UserController {
         BeanUtils.copyProperties(user, users);
         return userService.signIn(users) ? ResponseEntity.status(HttpStatus.CREATED).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Void> login(@Validated @RequestBody UserLoginDto userLoginDto) {
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userLoginDto.getUsername(), userLoginDto.getPassword());
+        Subject subject = SecurityUtils.getSubject();
+        subject.login(usernamePasswordToken);
+        return ResponseEntity.ok().build();
+    }
+
 }
