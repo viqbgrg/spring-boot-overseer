@@ -14,6 +14,11 @@ import java.util.Date;
 
 @Slf4j
 public class JwtUtils {
+    // 过期时间5分钟
+    private static final long EXPIRE_TIME = 5*60;
+    public static String sign(String username, String salt) {
+        return sign(username, salt, EXPIRE_TIME);
+    }
     public static String sign(String username, String salt, long time) {
         try {
             Date date = new Date(System.currentTimeMillis() + time * 1000);
