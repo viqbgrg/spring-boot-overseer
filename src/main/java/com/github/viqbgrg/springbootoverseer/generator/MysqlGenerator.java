@@ -1,5 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.generator;
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -61,11 +62,18 @@ public class MysqlGenerator {
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/overseer?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
+//        dsc.setUrl("jdbc:mysql://localhost:3306/overseer?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
+//        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+//        dsc.setUsername("root");
+//        dsc.setPassword("123456");
+//        mpg.setDataSource(dsc);
+
+        dsc.setUrl("jdbc:h2:file:./target/h2db/db/myapp;MODE=MySQL;DATABASE_TO_LOWER=TRUE");
         // dsc.setSchemaName("public");
-        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setDriverName("org.h2.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("123456");
+        dsc.setDbType(DbType.H2);
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 
         // 包配置
