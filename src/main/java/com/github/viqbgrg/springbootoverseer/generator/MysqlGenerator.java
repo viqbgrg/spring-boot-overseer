@@ -68,7 +68,7 @@ public class MysqlGenerator {
 //        dsc.setPassword("123456");
 //        mpg.setDataSource(dsc);
 
-        dsc.setUrl("jdbc:h2:file:./target/h2db/db/myapp;MODE=MySQL;DATABASE_TO_LOWER=TRUE");
+        dsc.setUrl("jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'");
         // dsc.setSchemaName("public");
         dsc.setDriverName("org.h2.Driver");
         dsc.setUsername("root");
