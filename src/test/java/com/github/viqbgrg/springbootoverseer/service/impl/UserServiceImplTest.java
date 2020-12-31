@@ -1,8 +1,8 @@
-package com.github.viqbgrg.springbootoverseer.user.service.impl;
+package com.github.viqbgrg.springbootoverseer.service.impl;
 
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.exception.UsernameExistException;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
-import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

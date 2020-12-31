@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.properties;
 
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.user.controller;
+package com.github.viqbgrg.springbootoverseer.controller;
 
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
 import org.junit.jupiter.api.Test;

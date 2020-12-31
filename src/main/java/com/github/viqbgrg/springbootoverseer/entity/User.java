@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.user.entity;
+package com.github.viqbgrg.springbootoverseer.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

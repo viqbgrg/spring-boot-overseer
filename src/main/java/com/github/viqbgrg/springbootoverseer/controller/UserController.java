@@ -1,10 +1,10 @@
-package com.github.viqbgrg.springbootoverseer.user.controller;
+package com.github.viqbgrg.springbootoverseer.controller;
 
 
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
-import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;

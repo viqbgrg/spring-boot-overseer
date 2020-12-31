@@ -1,6 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.properties;
 
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

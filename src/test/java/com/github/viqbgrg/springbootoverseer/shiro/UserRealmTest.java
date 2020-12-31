@@ -1,8 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
-import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
-import com.github.viqbgrg.springbootoverseer.user.service.impl.UserServiceImpl;
+import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.service.impl.UserServiceImpl;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;

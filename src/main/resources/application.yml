@@ -11,4 +11,4 @@ spring:
 #    path: /var/log/springboot/
 mybatis:
   #对应mapper路劲
-  mapper-locations: classpath*:mapper/user/*.xml
+  mapper-locations: classpath*:mapper/*.xml

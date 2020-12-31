@@ -1,10 +1,10 @@
-package com.github.viqbgrg.springbootoverseer.user.controller;
+package com.github.viqbgrg.springbootoverseer.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.exception.UsernameExistException;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
-import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

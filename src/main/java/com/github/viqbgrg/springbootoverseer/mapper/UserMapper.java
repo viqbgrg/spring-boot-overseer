@@ -1,8 +1,9 @@
-package com.github.viqbgrg.springbootoverseer.user.mapper;
+package com.github.viqbgrg.springbootoverseer.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2020-12-25
  */
 @Mapper
+@Repository
 public interface UserMapper extends BaseMapper<User> {
 
 }

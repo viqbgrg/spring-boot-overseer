@@ -1,7 +1,7 @@
-package com.github.viqbgrg.springbootoverseer.user.service;
+package com.github.viqbgrg.springbootoverseer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 
 /**
  * <p>

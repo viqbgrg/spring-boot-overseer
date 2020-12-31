@@ -1,11 +1,11 @@
-package com.github.viqbgrg.springbootoverseer.user.service.impl;
+package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.exception.UsernameExistException;
-import com.github.viqbgrg.springbootoverseer.user.entity.User;
-import com.github.viqbgrg.springbootoverseer.user.mapper.UserMapper;
-import com.github.viqbgrg.springbootoverseer.user.service.IUserService;
+import com.github.viqbgrg.springbootoverseer.mapper.UserMapper;
+import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.springframework.stereotype.Service;
 

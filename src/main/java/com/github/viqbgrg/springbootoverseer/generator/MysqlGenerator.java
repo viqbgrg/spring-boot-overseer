@@ -7,10 +7,13 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.Controller;
+import com.baomidou.mybatisplus.generator.config.builder.Entity;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -48,39 +51,25 @@ public class MysqlGenerator {
      * RUN THIS
      */
     public static void main(String[] args) {
-        // 代码生成器
-        AutoGenerator mpg = new AutoGenerator();
 
-        // 全局配置
-        GlobalConfig gc = new GlobalConfig();
+
+
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/src/main/java");
-        gc.setAuthor("bing");
-        gc.setOpen(false);
-        gc.setFileOverride(true);
-        mpg.setGlobalConfig(gc);
 
         // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-//        dsc.setUrl("jdbc:mysql://localhost:3306/overseer?useUnicode=true&serverTimezone=GMT&useSSL=false&characterEncoding=utf8");
-//        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-//        dsc.setUsername("root");
-//        dsc.setPassword("123456");
-//        mpg.setDataSource(dsc);
+        DataSourceConfig dsc = new DataSourceConfig.
+                Builder("jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'","","")
+                .driver("org.h2.Driver").dbType(DbType.H2).build();
 
-        dsc.setUrl("jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'");
-        // dsc.setSchemaName("public");
-        dsc.setDriverName("org.h2.Driver");
-        dsc.setUsername("root");
-        dsc.setDbType(DbType.H2);
-        dsc.setPassword("");
-        mpg.setDataSource(dsc);
-
+        // 代码生成器
+        AutoGenerator mpg = new AutoGenerator(dsc);
+        // 全局配置
+        GlobalConfig gc = new GlobalConfig.Builder().outputDir(projectPath + "/src/main/java")
+                .author("bing").openDir(false).build();
+        mpg.global(gc);
         // 包配置
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName(scanner("模块名"));
-        pc.setParent("com.github.viqbgrg.springbootoverseer");
-        mpg.setPackageInfo(pc);
+        PackageConfig pc = new PackageConfig.Builder().parent("com.github.viqbgrg.springbootoverseer").build();
+        mpg.packageInfo(pc);
 
         // 自定义配置
         InjectionConfig cfg = new InjectionConfig() {
@@ -92,29 +81,25 @@ public class MysqlGenerator {
         List<FileOutConfig> focList = new ArrayList<>();
         focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
-            public String outputFile(TableInfo tableInfo) {
+            public File outputFile(TableInfo tableInfo) {
                 // 自定义输入文件名称
-                return projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+                return new File(projectPath + "/src/main/resources/mapper/" + pc.getModuleName()
+                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML);
             }
         });
-        cfg.setFileOutConfigList(focList);
-        mpg.setCfg(cfg);
-        mpg.setTemplate(new TemplateConfig().setXml(null));
-
+        cfg.addFileOutConfig(focList);
+        mpg.injection(cfg);
+        mpg.template(new TemplateConfig.Builder().all().mapperXml(null).mapper("mapper.java").build());
         // 策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setNaming(NamingStrategy.underline_to_camel);
-        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-        strategy.setEntityLombokModel(true);
-        strategy.setInclude(scanner("表名"));
-        strategy.setRestControllerStyle(true);
-        strategy.setSuperEntityColumns("id");
-        strategy.setControllerMappingHyphenStyle(true);
-        strategy.setTablePrefix(pc.getModuleName() + "_");
-        mpg.setStrategy(strategy);
+        StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_").build();
+        strategy = new Entity.Builder(strategy).naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
+                .lombok(true).addSuperEntityColumns("id").build();
+
+        strategy = new Controller.Builder(strategy).restStyle(true).hyphenStyle(true).build();
+
+        mpg.strategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        mpg.engine(new FreemarkerTemplateEngine());
         mpg.execute();
     }
 
