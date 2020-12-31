@@ -84,7 +84,7 @@ public class MysqlGenerator {
         mpg.injection(cfg);
         mpg.template(new TemplateConfig.Builder().all().mapper("mapper.java").build().disable(TemplateType.XML));
         // 策略配置
-        StrategyConfig strategy = new StrategyConfig.Builder().addInclude("account").addTablePrefix(pc.getModuleName() + "_")
+        StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_")
                 .entityBuilder().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
                 .lombok(true).addSuperEntityColumns("id").controllerBuilder().restStyle(true).hyphenStyle(true).build();
 
