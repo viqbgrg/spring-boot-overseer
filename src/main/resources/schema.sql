@@ -23,12 +23,11 @@ create table account
 );
 
 drop table if exists user_account;
-create table user_account
-(
-    id      bigint(20) not null auto_increment comment '账号主键',
-    user_id bigint(20) not null comment '用户id',
-    xunlei_id  bigint(20) not null comment '用户id',
-    create_at timestamp    not null comment '用户创建时间',
-    update_at timestamp comment '更新时间',
-    PRIMARY KEY (id)
+CREATE TABLE `user_account` (
+    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账号主键',
+    `user_id` bigint(20) NOT NULL COMMENT '用户id',
+    `account_id` bigint(20) NOT NULL COMMENT '用户id',
+    `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '用户创建时间',
+    `update_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
+    PRIMARY KEY (`id`)
 )

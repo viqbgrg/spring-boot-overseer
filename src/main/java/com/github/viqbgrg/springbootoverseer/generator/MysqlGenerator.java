@@ -7,8 +7,6 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.builder.Controller;
-import com.baomidou.mybatisplus.generator.config.builder.Entity;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -72,12 +70,7 @@ public class MysqlGenerator {
         mpg.packageInfo(pc);
 
         // 自定义配置
-        InjectionConfig cfg = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                // to do nothing
-            }
-        };
+        InjectionConfig cfg = new InjectionConfig();
         List<FileOutConfig> focList = new ArrayList<>();
         focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
             @Override
@@ -89,13 +82,11 @@ public class MysqlGenerator {
         });
         cfg.addFileOutConfig(focList);
         mpg.injection(cfg);
-        mpg.template(new TemplateConfig.Builder().all().mapperXml(null).mapper("mapper.java").build());
+        mpg.template(new TemplateConfig.Builder().all().mapper("mapper.java").build().disable(TemplateType.XML));
         // 策略配置
-        StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_").build();
-        strategy = new Entity.Builder(strategy).naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
-                .lombok(true).addSuperEntityColumns("id").build();
-
-        strategy = new Controller.Builder(strategy).restStyle(true).hyphenStyle(true).build();
+        StrategyConfig strategy = new StrategyConfig.Builder().addInclude("account").addTablePrefix(pc.getModuleName() + "_")
+                .entityBuilder().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
+                .lombok(true).addSuperEntityColumns("id").controllerBuilder().restStyle(true).hyphenStyle(true).build();
 
         mpg.strategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
