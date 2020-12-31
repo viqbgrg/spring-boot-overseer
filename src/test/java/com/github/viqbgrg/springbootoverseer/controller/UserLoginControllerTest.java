@@ -26,7 +26,7 @@ public class UserLoginControllerTest {
         userLoginDto.setUsername("username");
         userLoginDto.setPassword("123456");
         HttpEntity<UserLoginDto> userLoginDtoHttpEntity = new HttpEntity<>(userLoginDto);
-        ResponseEntity<Void> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, Void.class);
+        ResponseEntity<String> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, String.class);
         HttpHeaders headers = responseEntityResponseEntity.getHeaders();
         assertThat(responseEntityResponseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
         assertThat(headers.getFirst("authorization")).isNotEmpty();
@@ -38,7 +38,7 @@ public class UserLoginControllerTest {
         userLoginDto.setUsername("username" + "error");
         userLoginDto.setPassword("123456");
         HttpEntity<UserLoginDto> userLoginDtoHttpEntity = new HttpEntity<>(userLoginDto);
-        ResponseEntity<Void> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, Void.class);
+        ResponseEntity<UserController.JWTToken> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, UserController.JWTToken.class);
         HttpHeaders headers = responseEntityResponseEntity.getHeaders();
         assertThat(responseEntityResponseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
         assertThat(headers.getFirst("authorization")).isNotEmpty();
