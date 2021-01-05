@@ -1,6 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
+import com.github.viqbgrg.springbootoverseer.domain.vo.UserInfoVo;
+import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,4 +45,22 @@ public class UserLoginControllerTest {
         assertThat(responseEntityResponseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
         assertThat(headers.getFirst("authorization")).isNotEmpty();
     }
+
+    /**
+     * 使用 jwt token 正常访问
+     */
+    @Test
+    void logoutTest() {
+        String jwt = "Bearer " + JwtUtils.sign("username", "123456");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("authorization", jwt);
+        ResponseEntity<UserInfoVo> result = this.restTemplate.getForEntity("/user/logout", UserInfoVo.class, new HttpEntity<>(headers));
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
+
+
+    /**
+     *  使用 jwt token 过期
+     */
 }

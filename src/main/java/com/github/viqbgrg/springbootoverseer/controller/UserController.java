@@ -4,6 +4,7 @@ package com.github.viqbgrg.springbootoverseer.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
+import com.github.viqbgrg.springbootoverseer.domain.vo.UserInfoVo;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
@@ -16,10 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -57,6 +55,26 @@ public class UserController {
         String jwt =JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getPassword());
         httpHeaders.add("authorization", "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        Subject subject = SecurityUtils.getSubject();
+        if(subject.getPrincipals() != null) {
+            log.info("为空");
+        }
+        SecurityUtils.getSubject().logout();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/userinfo")
+    public ResponseEntity<UserInfoVo> userinfo() {
+        UserInfoVo userInfoVo = new UserInfoVo();
+        Subject subject = SecurityUtils.getSubject();
+        String principal = (String)subject.getPrincipal();
+        User userByUsername = userService.findUserByUsername(principal);
+        BeanUtils.copyProperties(userByUsername, userInfoVo);
+        return ResponseEntity.ok(userInfoVo);
     }
 
 

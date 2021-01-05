@@ -39,6 +39,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0-RC1'
     implementation 'cn.hutool:hutool-crypto:5.4.5'
     implementation 'org.zalando:problem-spring-web-starter:0.26.2'
+    implementation 'org.apache.commons:commons-lang3:3.11'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly group: 'mysql', name: 'mysql-connector-java'
     implementation 'org.hibernate:hibernate-validator:7.0.0.Alpha6'
