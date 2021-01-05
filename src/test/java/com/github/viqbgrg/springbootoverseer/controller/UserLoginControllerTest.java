@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -54,7 +51,7 @@ public class UserLoginControllerTest {
         String jwt = "Bearer " + JwtUtils.sign("username", "123456");
         HttpHeaders headers = new HttpHeaders();
         headers.add("authorization", jwt);
-        ResponseEntity<UserInfoVo> result = this.restTemplate.getForEntity("/user/logout", UserInfoVo.class, new HttpEntity<>(headers));
+        ResponseEntity<UserInfoVo> result = this.restTemplate.exchange("/user/logout", HttpMethod.GET, new HttpEntity<>(headers), UserInfoVo.class);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
