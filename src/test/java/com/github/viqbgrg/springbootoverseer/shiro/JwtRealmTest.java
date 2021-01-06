@@ -48,7 +48,7 @@ public class JwtRealmTest {
     // token 正确
     @Test
     void reLogin() {
-        String token = JwtUtils.sign(user.getUsername(), "user.getSalt()");
+        String token = JwtUtils.sign(user.getUsername(), user.getUsername());
         JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(token);
         subject.login(jwtAuthenticationToken);
         assertThat(subject.isAuthenticated()).isTrue();

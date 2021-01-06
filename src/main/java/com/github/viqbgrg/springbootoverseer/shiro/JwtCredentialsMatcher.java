@@ -18,6 +18,6 @@ public class JwtCredentialsMatcher implements CredentialsMatcher {
         String jwtToken = (String) token.getPrincipal();
         User user = (User) info.getPrincipals().getPrimaryPrincipal();
         String salt = (String) info.getCredentials();
-        return JwtUtils.verify(jwtToken, user.getUsername(), salt);
+        return JwtUtils.verify(jwtToken, user.getUsername(), user.getUsername());
     }
 }

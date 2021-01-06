@@ -49,7 +49,7 @@ public class UserLoginControllerTest {
      */
     @Test
     void userInfoTest() {
-        String jwt = "Bearer " + JwtUtils.sign("username", "123456");
+        String jwt = "Bearer " + JwtUtils.sign("username", "username");
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, jwt);
         ResponseEntity<UserInfoVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), UserInfoVo.class);
@@ -64,7 +64,7 @@ public class UserLoginControllerTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, "");
         ResponseEntity<UserInfoVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), UserInfoVo.class);
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
 

@@ -7,6 +7,7 @@ import org.apache.shiro.web.filter.authc.AuthenticatingFilter;
 import org.apache.shiro.web.util.WebUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -44,6 +45,14 @@ public class JwtAuthFilter extends AuthenticatingFilter {
         }
         return allowed || super.isPermissive(mappedValue);
     }
+    @Override
+    protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
+        HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
+        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) //对于OPTION请求做拦截，不做token校验
+            return false;
+
+        return super.preHandle(request, response);
+    }
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
@@ -51,7 +60,7 @@ public class JwtAuthFilter extends AuthenticatingFilter {
         httpResponse.setCharacterEncoding("UTF-8");
         httpResponse.setContentType("application/json;charset=UTF-8");
         httpResponse.setStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION.value());
-//        fillCorsHeader(WebUtils.toHttp(servletRequest), httpResponse);
+        fillCorsHeader(WebUtils.toHttp(request), httpResponse);
         return false;
     }
 
@@ -62,5 +71,11 @@ public class JwtAuthFilter extends AuthenticatingFilter {
             return header.substring(7);
         }
         return null;
+    }
+
+    protected void fillCorsHeader(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
+        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
+        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,HEAD");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
     }
 }

@@ -12,7 +12,7 @@ class JwtUtilsTest {
 
     @Test
     void sign() {
-        String token = JwtUtils.sign(username, salt, 10);
+        String token = JwtUtils.sign(username, username, 10);
         assertThat(token).isNotEmpty();
     }
 

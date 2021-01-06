@@ -54,7 +54,7 @@ public class UserController {
         Subject subject = SecurityUtils.getSubject();
         subject.login(usernamePasswordToken);
         HttpHeaders httpHeaders = new HttpHeaders();
-        String jwt =JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getPassword());
+        String jwt =JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getUsername());
         httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }

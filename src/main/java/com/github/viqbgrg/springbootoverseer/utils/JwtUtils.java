@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -76,5 +77,11 @@ public class JwtUtils {
         Date now = Calendar.getInstance().getTime();
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getExpiresAt().before(now);
+    }
+
+    public static String generateSalt(){
+        SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
+        String hex = secureRandom.nextBytes(16).toHex();
+        return hex;
     }
 }
