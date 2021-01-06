@@ -19,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import static com.github.viqbgrg.springbootoverseer.shiro.JwtAuthFilter.AUTHORIZATION_HEADER;
+
 /**
  * <p>
  * 前端控制器
@@ -53,7 +55,7 @@ public class UserController {
         subject.login(usernamePasswordToken);
         HttpHeaders httpHeaders = new HttpHeaders();
         String jwt =JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getPassword());
-        httpHeaders.add("authorization", "Bearer " + jwt);
+        httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
