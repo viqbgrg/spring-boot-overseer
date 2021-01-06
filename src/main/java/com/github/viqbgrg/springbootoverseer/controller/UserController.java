@@ -73,9 +73,8 @@ public class UserController {
     public ResponseEntity<UserInfoVo> userinfo() {
         UserInfoVo userInfoVo = new UserInfoVo();
         Subject subject = SecurityUtils.getSubject();
-        String principal = (String)subject.getPrincipal();
-        User userByUsername = userService.findUserByUsername(principal);
-        BeanUtils.copyProperties(userByUsername, userInfoVo);
+        User User = (User)subject.getPrincipal();
+        BeanUtils.copyProperties(User, userInfoVo);
         return ResponseEntity.ok(userInfoVo);
     }
 
