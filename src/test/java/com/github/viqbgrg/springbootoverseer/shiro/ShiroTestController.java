@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("")
-public class TestController {
+public class ShiroTestController {
     @GetMapping(value = "/shiroSubject")
     public ResponseEntity<User> shiroSubject() {
         Subject subject = SecurityUtils.getSubject();

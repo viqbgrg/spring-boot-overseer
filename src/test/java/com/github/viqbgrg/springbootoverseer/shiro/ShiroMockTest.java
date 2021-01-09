@@ -1,5 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.shiro;
 
+import com.github.viqbgrg.springbootoverseer.entity.User;
+import org.apache.shiro.subject.Subject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -11,15 +14,18 @@ import org.zalando.problem.spring.web.autoconfigure.ProblemAutoConfiguration;
 import org.zalando.problem.spring.web.autoconfigure.ProblemJacksonAutoConfiguration;
 import org.zalando.problem.spring.web.autoconfigure.ProblemJacksonWebMvcAutoConfiguration;
 
+import static org.mockito.Answers.RETURNS_DEEP_STUBS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(TestController.class)
+@WebMvcTest(ShiroTestController.class)
 @ImportAutoConfiguration(classes = {ProblemAutoConfiguration.class, ProblemJacksonAutoConfiguration.class
         , ProblemJacksonWebMvcAutoConfiguration.class
 })
-public class ShiroMockTest {
+public class ShiroMockTest extends AbstractShiroTest {
 
     @Autowired
     private MockMvc mvc;
@@ -27,6 +33,11 @@ public class ShiroMockTest {
 
     @Test
     void getShiroSubjectTest() throws Exception {
+        Subject subject = mock(Subject.class, RETURNS_DEEP_STUBS);
+        User user = new User();
+        user.setUsername("username");
+        when(subject.getPrincipal()).thenReturn(user);
+        setSubject(subject);
         ResultActions resultActions = mvc.perform(get("/shiroSubject").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$.username").value("username"));
@@ -42,7 +53,11 @@ public class ShiroMockTest {
                 .andExpect(status().isOk()).andExpect(content().string("test"));
     }
 
-
+    @AfterEach
+    public void tearDownSubject() {
+        //3. Unbind the subject from the current thread:
+        clearSubject();
+    }
 
 
 }
