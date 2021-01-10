@@ -32,3 +32,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### 账号信息等 ###
+application-test.yml

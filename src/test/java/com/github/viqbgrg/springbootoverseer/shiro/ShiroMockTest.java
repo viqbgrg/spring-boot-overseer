@@ -2,7 +2,7 @@ package com.github.viqbgrg.springbootoverseer.shiro;
 
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import org.apache.shiro.subject.Subject;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
@@ -30,14 +30,18 @@ public class ShiroMockTest extends AbstractShiroTest {
     @Autowired
     private MockMvc mvc;
 
-
-    @Test
-    void getShiroSubjectTest() throws Exception {
+    @BeforeEach
+    void before() {
         Subject subject = mock(Subject.class, RETURNS_DEEP_STUBS);
         User user = new User();
         user.setUsername("username");
         when(subject.getPrincipal()).thenReturn(user);
         setSubject(subject);
+    }
+
+
+    @Test
+    void getShiroSubjectTest() throws Exception {
         ResultActions resultActions = mvc.perform(get("/shiroSubject").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk()).andExpect(jsonPath("$.username").value("username"));
@@ -51,12 +55,6 @@ public class ShiroMockTest extends AbstractShiroTest {
         mvc.perform(get("/text").contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk()).andExpect(content().string("test"));
-    }
-
-    @AfterEach
-    public void tearDownSubject() {
-        //3. Unbind the subject from the current thread:
-        clearSubject();
     }
 
 
