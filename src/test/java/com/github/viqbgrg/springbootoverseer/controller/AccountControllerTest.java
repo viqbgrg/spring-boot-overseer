@@ -57,9 +57,8 @@ class AccountControllerTest extends AbstractShiroTest {
      */
     @Test
     void addAccount() throws Exception {
-        System.out.println(xunleiAccountDto);
         this.mockMvc.perform(post("/account").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(xunleiAccountDto)))
-                .andDo(print()).andExpect(status().isOk());
+                .andDo(print()).andExpect(status().isCreated());
     }
 
 }

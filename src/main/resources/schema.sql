@@ -15,10 +15,14 @@ CREATE TABLE user
 drop table if exists account;
 create table account
 (
-    id      bigint(20) not null auto_increment comment '账号主键',
-    xunlei_id  bigint(20) not null comment '用户id',
-    create_at timestamp    not null comment '用户创建时间',
-    update_at timestamp comment '更新时间',
+    id         bigint(20)   not null auto_increment comment '账号主键',
+    user_id    bigint(20)   not null comment '账号id',
+    nick_name  varchar(20)  not null comment '账号昵称',
+    login_key  varchar(105) not null comment '再次登陆的key',
+    creditkey  varchar(135) not null,
+    secure_key varchar(40)  not null,
+    create_at  timestamp    not null comment '用户创建时间',
+    update_at  timestamp comment '更新时间',
     PRIMARY KEY (id)
 );
 
