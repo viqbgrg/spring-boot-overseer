@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.config.TestConfig;
 import com.github.viqbgrg.springbootoverseer.domain.dto.XunleiAccountDto;
 import com.github.viqbgrg.springbootoverseer.entity.User;
+import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.shiro.AbstractShiroTest;
 import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -36,6 +38,9 @@ class AccountControllerTest extends AbstractShiroTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private IAccountService accountService;
 
     @Autowired
     private ObjectMapper objectMapper;
