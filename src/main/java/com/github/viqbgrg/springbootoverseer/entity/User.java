@@ -1,5 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,13 +14,18 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author bing
- * @since 2020-12-28
+ * @since 2021-01-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+
+    /**
+     * 主键ID
+     */
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
      * 姓名
@@ -38,7 +45,7 @@ public class User implements Serializable {
     /**
      * 用户是否锁定
      */
-    private Boolean locked;
+    private Integer locked;
 
     /**
      * 用户创建时间
