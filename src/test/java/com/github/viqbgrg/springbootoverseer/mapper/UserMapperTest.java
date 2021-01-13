@@ -24,7 +24,7 @@ class UserMapperTest {
         user.setPassword("123456");
         user.setEmail("123456@qq.com");
         user.setCreateAt(LocalDateTime.now());
-        user.setLocked(false);
+        user.setLocked(0);
         userMapper.insert(user);
         List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, "username"));
         assertThat(users.isEmpty()).isFalse();

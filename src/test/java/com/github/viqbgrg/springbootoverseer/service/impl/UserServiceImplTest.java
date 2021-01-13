@@ -30,7 +30,7 @@ class UserServiceImplTest {
         user.setUsername("username1");
         user.setPassword("123456");
         user.setEmail("123456@qq.com");
-        user.setLocked(false);
+        user.setLocked(0);
         user.setCreateAt(LocalDateTime.now());
         assertThat(userService.signIn(user)).isTrue();
     }
@@ -41,7 +41,7 @@ class UserServiceImplTest {
         user.setUsername("username");
         user.setPassword("123456");
         user.setEmail("123456@qq.com");
-        user.setLocked(false);
+        user.setLocked(0);
         user.setCreateAt(LocalDateTime.now());
         assertThatThrownBy(() -> userService.signIn(user)).isInstanceOf(UsernameExistException.class);
     }
