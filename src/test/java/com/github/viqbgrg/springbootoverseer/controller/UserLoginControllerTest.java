@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.zalando.problem.Problem;
 
 import static com.github.viqbgrg.springbootoverseer.shiro.JwtAuthFilter.AUTHORIZATION_HEADER;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,10 +39,10 @@ public class UserLoginControllerTest {
         userLoginDto.setUsername("username" + "error");
         userLoginDto.setPassword("123456");
         HttpEntity<UserLoginDto> userLoginDtoHttpEntity = new HttpEntity<>(userLoginDto);
-        ResponseEntity<UserController.JWTToken> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, UserController.JWTToken.class);
+        ResponseEntity<Problem> responseEntityResponseEntity = this.restTemplate.postForEntity("/user/login", userLoginDtoHttpEntity, Problem.class);
         HttpHeaders headers = responseEntityResponseEntity.getHeaders();
-        assertThat(responseEntityResponseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
-        assertThat(headers.getFirst(AUTHORIZATION_HEADER)).isNotEmpty();
+        assertThat(responseEntityResponseEntity.getStatusCodeValue()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(headers.getFirst(AUTHORIZATION_HEADER)).isNull();
     }
 
     /**
