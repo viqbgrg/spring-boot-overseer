@@ -11,14 +11,11 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePas
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
 import java.util.Map;
@@ -43,7 +40,7 @@ class ZqbApiTest {
         zqbApi.collect();
         String asset = zqbApi.asset();
         Map<String, Object> stringObjectMap = JsonUtil.stringToObject(asset);
-        System.out.println("可提现金额: " + stringObjectMap.get("wc_pkg"));
+        System.out.println("可提现金额1111: " + stringObjectMap.get("wc_pkg"));
 //        Double wc_pkg = (Double) stringObjectMap.get("wc_pkg");
 //        String drawpkg = zqbApi.drawpkg(wc_pkg);
 //        System.out.println("提现结果:" + drawpkg);

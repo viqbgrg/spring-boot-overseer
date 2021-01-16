@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author bing
- * @since 2021-01-13
+ * @since 2021-01-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,6 +26,16 @@ public class Account implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 登陆账号
+     */
+    private String username;
+
+    /**
+     * 登陆密码
+     */
+    private String password;
 
     /**
      * 账号id

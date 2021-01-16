@@ -1,9 +1,11 @@
 package com.github.viqbgrg.springbootoverseer.xunlei.zqb.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -38,8 +40,11 @@ public class JsonUtil {
         return mapper.writeValueAsString(value);
     }
 
-    public static Map stringToObject(String jsonSource) throws JsonProcessingException {
-        return mapper.readValue(jsonSource, Map.class);
+    public static Map<String, Object> stringToObject(String jsonSource) throws JsonProcessingException {
+        TypeReference<HashMap<String, Object>> typeRef
+                = new TypeReference<>() {
+        };
+        return mapper.readValue(jsonSource, typeRef);
     }
 
     public static JsonNode stringToJsonNode(String json) throws JsonProcessingException {
