@@ -16,6 +16,8 @@ drop table if exists account;
 create table account
 (
     id         bigint(20)   not null auto_increment comment '账号主键',
+    username   varchar(20)  not null comment '登陆账号',
+    password   varchar(50)  not null comment '登陆密码',
     user_id    bigint(20)   not null comment '账号id',
     nick_name  varchar(20)  not null comment '账号昵称',
     login_key  varchar(105) not null comment '再次登陆的key',

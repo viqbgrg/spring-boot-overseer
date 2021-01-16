@@ -1,10 +1,10 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.entity.UserAccount;
 import com.github.viqbgrg.springbootoverseer.mapper.AccountMapper;
+import com.github.viqbgrg.springbootoverseer.service.BaseService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.LoginResultDto;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
@@ -21,14 +21,14 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author bing
  * @since 2020-12-31
  */
 @Service
-public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> implements IAccountService {
+public class AccountServiceImpl extends BaseService<AccountMapper, Account> implements IAccountService {
 
     @Override
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
@@ -45,5 +45,10 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
         UserAccount userAccount = new UserAccount();
         userAccount.setAccountId(account.getId());
         userAccount.setUserId(user.getId());
+    }
+
+    @Override
+    public void deleteAccount(String accountId) {
+        this.removeByIdMyException(accountId);
     }
 }

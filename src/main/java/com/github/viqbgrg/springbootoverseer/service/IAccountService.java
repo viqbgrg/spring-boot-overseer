@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author bing
@@ -18,4 +18,6 @@ import java.io.IOException;
  */
 public interface IAccountService extends IService<Account> {
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException;
+
+    void deleteAccount(String accountId);
 }

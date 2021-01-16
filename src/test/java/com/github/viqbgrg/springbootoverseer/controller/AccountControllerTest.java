@@ -22,8 +22,10 @@ import org.zalando.problem.spring.web.autoconfigure.ProblemJacksonAutoConfigurat
 import org.zalando.problem.spring.web.autoconfigure.ProblemJacksonWebMvcAutoConfiguration;
 
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,8 +64,18 @@ class AccountControllerTest extends AbstractShiroTest {
      */
     @Test
     void addAccount() throws Exception {
+        when(accountService.save(any())).thenReturn(true);
         this.mockMvc.perform(post("/account").contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsBytes(xunleiAccountDto)))
                 .andDo(print()).andExpect(status().isCreated());
+    }
+
+    /**
+     * 删除迅雷账号
+     */
+    @Test
+    void delAccountTest() throws Exception {
+        when(accountService.removeById(any())).thenReturn(true);
+        this.mockMvc.perform(delete("/account/1")).andExpect(status().isOk());
     }
 
 }
