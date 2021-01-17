@@ -4,7 +4,8 @@ package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 import com.github.viqbgrg.springbootoverseer.config.TestConfig;
 import com.github.viqbgrg.springbootoverseer.domain.dto.XunleiAccountDto;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.LoginResultDto;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.AccountInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
@@ -33,12 +34,13 @@ class ZqbApiTest {
     void login() throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
         XunleiAccount account = new XunleiAccount();
         BeanUtils.copyProperties(xunleiAccountDto, account);
-        ZqbLogin zqbLogin = new ZqbLogin(account);
-        LoginResultDto login = zqbLogin.login();
+        AccountInfo login = ZqbLogin.login(account);
         System.out.println(login);
-        zqbApi = new ZqbApi(login);
+        ApiInfo apiInfo = new ApiInfo(login.getSessionID(), login.getUserID(), login.getNickName());
+        zqbApi = new ZqbApi(apiInfo);
         zqbApi.collect();
         String asset = zqbApi.asset();
+        System.out.println(asset);
         Map<String, Object> stringObjectMap = JsonUtil.stringToObject(asset);
         System.out.println("可提现金额1111: " + stringObjectMap.get("wc_pkg"));
 //        Double wc_pkg = (Double) stringObjectMap.get("wc_pkg");
@@ -78,5 +80,17 @@ class ZqbApiTest {
 
     @Test
     void collect() {
+    }
+
+    @Test
+    void getMineInfo() throws IOException {
+        String mineInfo = zqbApi.getMineInfo();
+        System.out.println(mineInfo);
+    }
+
+    @Test
+    void getDeviceInfo() throws IOException {
+        String deviceInfo = zqbApi.getDeviceInfo();
+        System.out.println(deviceInfo);
     }
 }

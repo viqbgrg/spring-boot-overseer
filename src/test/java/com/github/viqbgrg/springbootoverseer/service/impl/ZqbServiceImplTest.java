@@ -2,8 +2,10 @@ package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import com.github.viqbgrg.springbootoverseer.config.TestConfig;
 import com.github.viqbgrg.springbootoverseer.domain.dto.XunleiAccountDto;
+import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
@@ -21,6 +23,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ZqbServiceImplTest {
     @Autowired
     private XunleiAccountDto xunleiAccountDto;
+
+    @Mock
+    private IAccountService accountService;
+
 
     @Test
     void login() {

@@ -1,15 +1,21 @@
 package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiCookies;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.LoginResultDto;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.UbusCdDTO;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author viqbgrg
@@ -19,13 +25,15 @@ public class ZqbApi {
     private static final String APP_VERSION = "3.2.2";
 
     private String cookies;
+    private ApiInfo apiInfo;
 
-    public ZqbApi(LoginResultDto loginInfo) throws UnsupportedEncodingException {
+    public ZqbApi(ApiInfo loginInfo) {
+        this.apiInfo = loginInfo;
         ApiCookies apiCookies = new ApiCookies();
         apiCookies.setSessionid(loginInfo.getSessionID());
         apiCookies.setUserid(loginInfo.getUserID());
         apiCookies.setOrigin("1");
-        String nickName = URLEncoder.encode(loginInfo.getNickName(), "UTF-8");
+        String nickName = loginInfo.getNickName();
         apiCookies.setNickname(nickName);
         apiCookies.setUsernick(nickName);
         apiCookies.setUsrname(nickName);
@@ -80,19 +88,31 @@ public class ZqbApi {
         return result;
     }
 
-    /**
-     * 获取MINE信息
-     *
-     * @return
-     * @throws IOException
-     */
-    public String mineInfo(double money) throws IOException {
+    private static String getUbusCd(String sessionId, String accountId, UbusCdDTO ubusCdDTO) throws IOException {
+        String time = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() + "";
+        //把代理设置到请求配置
+        String url = MessageFormat.format("https://ocapi.peiluyou.com:8009/ubus_cd?account_id={0}&session_id={1}&action=ubus_{2}",
+                accountId, sessionId, time);
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode objectNode = objectMapper.createObjectNode();
+        objectNode.put("jsonrpc", "2.0");
+        objectNode.put("id", 1);
+        objectNode.put("method", "call");
+        objectNode.put("params", ubusCdDTO.toString());
+        String data = objectMapper.writeValueAsString(ubusCdDTO);
+
+
         RequestBody formBody = new FormBody.Builder()
-                .add("v", "5")
-                .add("appversion", APP_VERSION)
+                .addEncoded("data", data)
                 .build();
-        String result = HttpUtil.apiPost(URL + "/index.php?r=mine/info", formBody, cookies);
-        return result;
+        //实例化CloseableHttpClient对象
+        Map<String, String> headersMap = new HashMap<>();
+        headersMap.put("Content-Type", "application/x-www-form-urlencoded");
+        headersMap.put("Origin", "https://kj.xunlei.com");
+        headersMap.put("User-Agent", "Mozilla/5.0 (Linux; Android 10; Redmi K30 Pro Build/QKQ1.191117.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.141 Mobile Safari/537.36");
+        String result = HttpUtil.postForm(url, formBody, headersMap);
+        String jsonResult = result.substring(result.indexOf("{"), result.lastIndexOf("}") + 1);
+        return jsonResult;
     }
 
     /**
@@ -142,6 +162,28 @@ public class ZqbApi {
                 .add("cmid", "-1")
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=mine/collect", formBody, cookies);
+        return result;
+    }
+
+    /**
+     * 获取MINE信息
+     *
+     * @return
+     * @throws IOException
+     */
+    public String getMineInfo() throws IOException {
+        RequestBody formBody = new FormBody.Builder()
+                .add("v", "5")
+                .add("appversion", APP_VERSION)
+                .build();
+        String result = HttpUtil.apiPost(URL + "/index.php?r=mine/info", formBody, cookies);
+        return result;
+    }
+
+    public String getDeviceInfo() throws IOException {
+        HashMap<String, String> map = new HashMap<>();
+        UbusCdDTO dt = new UbusCdDTO(apiInfo.getSessionID(), "server", "get_devices", map);
+        String result = ZqbApi.getUbusCd(apiInfo.getSessionID(), apiInfo.getUserID(), dt);
         return result;
     }
 

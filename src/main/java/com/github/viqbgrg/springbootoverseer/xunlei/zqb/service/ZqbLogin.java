@@ -25,16 +25,8 @@ public class ZqbLogin {
     private XunleiAccount account;
     private String deviceKey;
 
-    private ZqbLogin() {
 
-    }
-
-    public ZqbLogin(XunleiAccount account) {
-        this.account = account;
-        deviceKey = devicesign(SecureUtil.md5(account.getUsername() + "23333"));
-    }
-
-    private static String devicesign(String paramString) {
+    public static String devicesign(String paramString) {
         StringBuffer localStringBuffer = new StringBuffer();
         localStringBuffer.append("div101");
         localStringBuffer.append(".");
@@ -48,7 +40,7 @@ public class ZqbLogin {
         return localStringBuffer.toString();
     }
 
-    public LoginResultDto login() throws IOException, WkyUsernamePasswordException, WkyUnknownErrorException {
+    public static AccountInfo login(XunleiAccount account) throws IOException, WkyUsernamePasswordException, WkyUnknownErrorException {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUserName(account.getUsername());
         loginResponse.setPassWord(account.getPassword());
@@ -61,7 +53,7 @@ public class ZqbLogin {
         loginResponse.setPeerID("00000000000000000000000000000000");
         loginResponse.setAppName("ANDROID-com.xunlei.redcrystalandroid");
         loginResponse.setSdkVersion("188000");
-        loginResponse.setDevicesign(deviceKey);
+        loginResponse.setDevicesign(devicesign(SecureUtil.md5(account.getUsername() + "23333")));
         loginResponse.setNetWorkType("WIFI");
         loginResponse.setProviderName("OTHER");
         loginResponse.setDeviceModel("ONEPLUS A3010");
@@ -78,7 +70,7 @@ public class ZqbLogin {
 
         String content = HttpUtil.post(LOGIN_URL, body, map);
         try {
-            return JsonUtil.stringToPOJO(content, LoginResultDto.class);
+            return JsonUtil.stringToPOJO(content, AccountInfo.class);
         } catch (JsonProcessingException e) {
             // 异常: 密码错误等
             log.warning(content);
@@ -94,37 +86,15 @@ public class ZqbLogin {
 
     }
 
-    public LoginResultDto loginkey(LoginResultDto loginInfo) throws IOException, WkyUsernamePasswordException, WkyUnknownErrorException {
-        LoginKeyDto dto = new LoginKeyDto();
-        dto.setProtocolVersion("301");
-        dto.setSequenceNo("1000001");
-        dto.setPlatformVersion("10");
-        dto.setIsCompressed("0");
-        dto.setAppid("61");
-        dto.setClientVersion("3.2.2");
-        dto.setPeerID("00000000000000000000000000000000");
-        dto.setAppName("ANDROID-com.xunlei.redcrystalandroid");
-        dto.setSdkVersion("188000");
-        dto.setDevicesign(deviceKey);
-        dto.setNetWorkType("WIFI");
-        dto.setProviderName("OTHER");
-        dto.setDeviceModel("ONEPLUS A3010");
-        dto.setDeviceName("Oneplus A3010");
-        dto.setOSVersion("9");
-        dto.setCreditkey(loginInfo.getCreditkey());
-        dto.setUserName(loginInfo.getUserID());
-        dto.setLoginKey(loginInfo.getLoginKey());
-
+    public static AccountInfo loginKey(LoginKeyDto dto) throws IOException, WkyUsernamePasswordException, WkyUnknownErrorException {
         String body = JsonUtil.pojoToString(dto);
-
-
         Map<String, String> map = new HashMap<>(1);
         map.put("User-Agent", "android-ok-http-client/xl-acc-sdk/version-3.6.1.188000");
         map.put("Content-Type", "application/json");
 
         String content = HttpUtil.post(LOGIN_KEY_URL, body, map);
         try {
-            return JsonUtil.stringToPOJO(content, LoginResultDto.class);
+            return JsonUtil.stringToPOJO(content, AccountInfo.class);
         } catch (JsonProcessingException e) {
             // 异常: 密码错误等
             log.warning(content);

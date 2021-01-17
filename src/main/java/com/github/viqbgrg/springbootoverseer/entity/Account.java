@@ -40,7 +40,7 @@ public class Account implements Serializable {
     /**
      * 账号id
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 账号昵称
@@ -55,6 +55,10 @@ public class Account implements Serializable {
     private String creditkey;
 
     private String secureKey;
+
+
+    private String sessionID;
+
 
     /**
      * 用户创建时间

@@ -10,7 +10,7 @@ import java.util.List;
  * @author viqbgrg
  */
 @Data
-public class LoginResultDto implements Serializable {
+public class AccountInfo implements Serializable {
 
     @JsonProperty("vipList")
     private List<VipListItem> vipList;

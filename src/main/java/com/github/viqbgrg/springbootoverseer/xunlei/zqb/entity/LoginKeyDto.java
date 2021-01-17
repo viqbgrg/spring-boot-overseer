@@ -6,6 +6,27 @@ import lombok.Data;
 @Data
 public class LoginKeyDto {
 
+    public LoginKeyDto(String creditkey, String userId, String loginKey, String deviceKey) {
+        this.setProtocolVersion("301");
+        this.setSequenceNo("1000001");
+        this.setPlatformVersion("10");
+        this.setIsCompressed("0");
+        this.setAppid("61");
+        this.setClientVersion("3.2.2");
+        this.setPeerID("00000000000000000000000000000000");
+        this.setAppName("ANDROID-com.xunlei.redcrystalandroid");
+        this.setSdkVersion("188000");
+        this.setDevicesign(deviceKey);
+        this.setNetWorkType("WIFI");
+        this.setProviderName("OTHER");
+        this.setDeviceModel("ONEPLUS A3010");
+        this.setDeviceName("Oneplus A3010");
+        this.setOSVersion("9");
+        this.setCreditkey(creditkey);
+        this.setUserName(userId);
+        this.setLoginKey(loginKey);
+    }
+
     @JsonProperty("peerID")
     private String peerID;
 
