@@ -27,8 +27,11 @@ import java.io.IOException;
 @RequestMapping("/account")
 public class AccountController {
 
-    @Autowired
-    private IAccountService accountService;
+    private final IAccountService accountService;
+
+    public AccountController(IAccountService accountService) {
+        this.accountService = accountService;
+    }
 
 
     @PostMapping

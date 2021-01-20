@@ -36,4 +36,13 @@ CREATE TABLE `user_account` (
     `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '用户创建时间',
     `update_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
     PRIMARY KEY (`id`)
-)
+);
+
+drop table if exists account_data;
+create table account_data
+(
+    id         bigint(20)   not null auto_increment comment '账号主键',
+    mine_info   json  not null comment '账号信息',
+    update_at  timestamp comment '更新时间',
+    PRIMARY KEY (id)
+);

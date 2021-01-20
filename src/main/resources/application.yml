@@ -9,6 +9,7 @@ spring:
 #logging:
 #  file:
 #    path: /var/log/springboot/
-mybatis:
+mybatis-plus:
   #对应mapper路劲
   mapper-locations: classpath*:mapper/*.xml
+  type-handlers-package: com.github.viqbgrg.springbootoverseer.mybatis.typehandler
