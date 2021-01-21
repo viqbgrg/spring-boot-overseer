@@ -2,19 +2,18 @@ package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author bing
- * @since 2021-01-16
+ * @since 2021-01-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -40,7 +39,7 @@ public class Account implements Serializable {
     /**
      * 账号id
      */
-    private String userId;
+    private String userID;
 
     /**
      * 账号昵称
@@ -52,13 +51,14 @@ public class Account implements Serializable {
      */
     private String loginKey;
 
+    /**
+     * 再次登陆的key
+     */
+    private String sessionID;
+
     private String creditkey;
 
     private String secureKey;
-
-
-    private String sessionID;
-
 
     /**
      * 用户创建时间

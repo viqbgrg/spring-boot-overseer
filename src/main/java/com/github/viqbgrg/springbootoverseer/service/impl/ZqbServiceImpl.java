@@ -66,7 +66,7 @@ public class ZqbServiceImpl implements ZqbService {
 
     @Override
     public AccountInfo loginKey(Account account) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
-        LoginKeyDto loginKeyDto = new LoginKeyDto(account.getCreditkey(), account.getUserId(), account.getLoginKey(), ZqbLogin.devicesign(SecureUtil.md5(account.getUsername() + "23333")));
+        LoginKeyDto loginKeyDto = new LoginKeyDto(account.getCreditkey(), account.getUserID(), account.getLoginKey(), ZqbLogin.devicesign(SecureUtil.md5(account.getUsername() + "23333")));
         AccountInfo accountInfo = ZqbLogin.loginKey(loginKeyDto);
         account.setUpdateAt(LocalDateTime.now());
         account.setCreditkey(accountInfo.getCreditkey());
@@ -78,7 +78,7 @@ public class ZqbServiceImpl implements ZqbService {
 
     @Override
     public void getProduceStat(Account account) throws IOException {
-        ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserId(), account.getNickName());
+        ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         String produceStat = zqbApi.getProduceStat();
     }
@@ -86,7 +86,7 @@ public class ZqbServiceImpl implements ZqbService {
     @Override
     public void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException {
         log.info("获取账号{}的信息", account.getUsername());
-        ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserId(), account.getNickName());
+        ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         String mineInfo = zqbApi.getMineInfo();
         Map<String, Object> mineInfoMap = JsonUtil.stringToObject(mineInfo);

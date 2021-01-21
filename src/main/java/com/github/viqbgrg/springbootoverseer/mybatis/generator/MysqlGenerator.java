@@ -1,4 +1,4 @@
-package com.github.viqbgrg.springbootoverseer.mybatis;
+package com.github.viqbgrg.springbootoverseer.mybatis.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;

@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.4.1'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'org.springframework.boot' version '2.4.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
     id 'java'
 }
@@ -22,7 +22,7 @@ configurations {
 sourceSets {
     // 使用创建工具
     if(project.gradle.startParameter.taskNames.contains("MysqlGenerator.main()")) {
-        main.java.srcDirs = ['src/main/java/com/github/viqbgrg/springbootoverseer/generator']
+        main.java.srcDirs = ['src/main/java/com/github/viqbgrg/springbootoverseer/mybatis/generator']
     }
 }
 
@@ -37,7 +37,6 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.10.0-RC1'
     implementation 'cn.hutool:hutool-crypto:5.4.5'
     implementation 'org.zalando:problem-spring-web-starter:0.26.2'
-    compileOnly 'org.projectlombok:lombok'
     runtimeOnly group: 'mysql', name: 'mysql-connector-java'
     implementation 'org.hibernate:hibernate-validator:7.0.0.Alpha6'
     runtimeOnly 'org.freemarker:freemarker:2.3.30'
@@ -53,7 +52,10 @@ dependencies {
     }
     implementation group: 'org.apache.shiro', name: 'shiro-spring-boot-web-starter', version: '1.6.0'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.4'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

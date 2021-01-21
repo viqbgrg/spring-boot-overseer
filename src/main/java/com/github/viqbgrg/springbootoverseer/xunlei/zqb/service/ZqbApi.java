@@ -173,7 +173,7 @@ public class ZqbApi {
      */
     public String getMineInfo() throws IOException {
         RequestBody formBody = new FormBody.Builder()
-                .add("v", "5")
+                .add("v", "4")
                 .add("appversion", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=mine/info", formBody, cookies);
