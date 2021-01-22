@@ -3,6 +3,7 @@ package com.github.viqbgrg.springbootoverseer.service.impl;
 import cn.hutool.crypto.SecureUtil;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.AccountData;
+import com.github.viqbgrg.springbootoverseer.service.IAccountDataService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.service.ZqbService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
@@ -84,12 +85,13 @@ public class ZqbServiceImpl implements ZqbService {
 
     @Override
     public void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException {
-        log.info("获取账号{}的信息", account.getUsername());
+        log.info("获取账号{}的信息", account.getUserID());
         AccountData accountData = new AccountData();
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         MineInfo mineInfo = zqbApi.getMineInfo();
         accountData.setMineInfo(mineInfo);
+        accountData.setUpdateAt(LocalDateTime.now());
         accountDataService.saveByException(accountData);
     }
 

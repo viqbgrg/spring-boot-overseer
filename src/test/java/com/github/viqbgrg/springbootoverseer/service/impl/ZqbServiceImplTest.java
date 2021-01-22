@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -30,11 +31,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 //@Import({ZqbServiceImpl.class})
 @ActiveProfiles("test")
-//@SpringBootTest
+@SpringBootTest
 @Slf4j
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(classes = {TestConfig.class, ZqbServiceImpl.class}, initializers = ConfigDataApplicationContextInitializer.class)
-@ExtendWith({MockitoExtension.class, SpringExtension.class})
+//@ContextConfiguration(classes = {TestConfig.class, ZqbServiceImpl.class, AccountDataServiceImpl.class}, initializers = ConfigDataApplicationContextInitializer.class)
+//@ExtendWith({MockitoExtension.class, SpringExtension.class})
 class ZqbServiceImplTest {
     @Autowired
     private XunleiAccountDto xunleiAccountDto;

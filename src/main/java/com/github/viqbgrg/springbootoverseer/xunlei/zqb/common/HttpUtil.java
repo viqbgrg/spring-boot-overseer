@@ -4,6 +4,8 @@ import okhttp3.*;
 
 import javax.net.ssl.*;
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
@@ -14,12 +16,15 @@ import java.util.Map;
 public class HttpUtil {
     private static final MediaType JSON
             = MediaType.get("application/json; charset=utf-8");
+    private static OkHttpClient.Builder builder = getBuilder();
+    private static OkHttpClient client = builder.build();
 
+    private static OkHttpClient.Builder getBuilder() {
+//        return new OkHttpClient.Builder();
+        return getUnsafeOkHttpClient();
+//        return setProxy(getUnsafeOkHttpClient(), "127.0.0.1", 8888);
+    }
 
-    /**
-     * peiluyou.com 证书过期,去除验证
-     */
-    private static OkHttpClient client = getUnsafeOkHttpClient().build();
 
     public static String post(String url, String json, Map<String, String> headersMap) throws IOException {
         Headers headers = Headers.of(headersMap);
@@ -35,12 +40,21 @@ public class HttpUtil {
     }
 
     public static String apiPost(String url, RequestBody body, String cookies) throws IOException {
+
         Request request = new Request.Builder()
                 .url(url)
                 .addHeader("Cookie", cookies)
                 .post(body)
                 .build();
-        try (Response response = client.newCall(request).execute()) {
+        OkHttpClient clientNoUa = getBuilder()
+                .addNetworkInterceptor(chain -> {
+            Request request1 = chain.request()
+                    .newBuilder()
+                    .removeHeader("User-Agent")
+                    .build();
+            return chain.proceed(request1);
+        }).build();
+        try (Response response = clientNoUa.newCall(request).execute()) {
             return response.body().string();
         }
     }
@@ -99,5 +113,11 @@ public class HttpUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static OkHttpClient.Builder setProxy(OkHttpClient.Builder builder, String hostName, int port) {
+        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(hostName, port));
+        builder.proxy(proxy);
+        return builder;
     }
 }

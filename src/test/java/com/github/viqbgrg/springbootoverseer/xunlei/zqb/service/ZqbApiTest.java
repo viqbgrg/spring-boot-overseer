@@ -39,11 +39,11 @@ class ZqbApiTest {
         System.out.println(login);
         ApiInfo apiInfo = new ApiInfo(login.getSessionID(), login.getUserID(), login.getNickName());
         zqbApi = new ZqbApi(apiInfo);
-        zqbApi.collect();
-        String asset = zqbApi.asset();
-        System.out.println(asset);
-        Map<String, Object> stringObjectMap = JsonUtil.stringToObject(asset);
-        System.out.println("可提现金额1111: " + stringObjectMap.get("wc_pkg"));
+//        zqbApi.collect();
+//        String asset = zqbApi.asset();
+//        System.out.println(asset);
+//        Map<String, Object> stringObjectMap = JsonUtil.stringToObject(asset);
+//        System.out.println("可提现金额1111: " + stringObjectMap.get("wc_pkg"));
 //        Double wc_pkg = (Double) stringObjectMap.get("wc_pkg");
 //        String drawpkg = zqbApi.drawpkg(wc_pkg);
 //        System.out.println("提现结果:" + drawpkg);
