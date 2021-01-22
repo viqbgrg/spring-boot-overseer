@@ -84,7 +84,7 @@ public class ZqbServiceImpl implements ZqbService {
     }
 
     @Override
-    public void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException {
+    public void getUserData(Account account) throws IOException {
         log.info("获取账号{}的信息", account.getUserID());
         AccountData accountData = new AccountData();
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());

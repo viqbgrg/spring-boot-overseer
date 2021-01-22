@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -194,14 +195,14 @@ public class ZqbApi {
     }
 
 
-    private <T> T parsePojo(String result, Class<T> classType) {
+    private <T> T parsePojo(String result, Class<T> classType) throws WkyExceedTimeException {
         T t = null;
         try {
             t = JsonUtil.stringToPOJO(result, classType);
         } catch (JsonProcessingException e) {
             log.error("接口报错, 转换异常: {}: {}",classType.getName(), result);
             e.printStackTrace();
-            throw new RuntimeException();
+            throw new WkyExceedTimeException();
         }
         return t;
     }
