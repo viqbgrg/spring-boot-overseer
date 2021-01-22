@@ -1,12 +1,16 @@
 package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiCookies;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.UbusCdDTO;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
@@ -20,6 +24,7 @@ import java.util.Map;
 /**
  * @author viqbgrg
  */
+@Slf4j
 public class ZqbApi {
     private static final String URL = "http://1-api-red.xunlei.com";
     private static final String APP_VERSION = "3.2.2";
@@ -171,13 +176,14 @@ public class ZqbApi {
      * @return
      * @throws IOException
      */
-    public String getMineInfo() throws IOException {
+    public MineInfo getMineInfo() throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("v", "4")
                 .add("appversion", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=mine/info", formBody, cookies);
-        return result;
+        MineInfo mineInfo = parsePojo(result, MineInfo.class);
+        return mineInfo;
     }
 
     public String getDeviceInfo() throws IOException {
@@ -185,6 +191,19 @@ public class ZqbApi {
         UbusCdDTO dt = new UbusCdDTO(apiInfo.getSessionID(), "server", "get_devices", map);
         String result = ZqbApi.getUbusCd(apiInfo.getSessionID(), apiInfo.getUserID(), dt);
         return result;
+    }
+
+
+    private <T> T parsePojo(String result, Class<T> classType) {
+        T t = null;
+        try {
+            t = JsonUtil.stringToPOJO(result, classType);
+        } catch (JsonProcessingException e) {
+            log.error("接口报错, 转换异常: {}: {}",classType.getName(), result);
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+        return t;
     }
 
 

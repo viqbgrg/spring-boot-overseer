@@ -6,6 +6,7 @@ import com.github.viqbgrg.springbootoverseer.domain.dto.XunleiAccountDto;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.AccountInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
@@ -84,7 +85,7 @@ class ZqbApiTest {
 
     @Test
     void getMineInfo() throws IOException {
-        String mineInfo = zqbApi.getMineInfo();
+        MineInfo mineInfo = zqbApi.getMineInfo();
         System.out.println(mineInfo);
     }
 

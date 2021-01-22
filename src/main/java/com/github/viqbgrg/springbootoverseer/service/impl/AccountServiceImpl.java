@@ -4,7 +4,7 @@ import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.entity.UserAccount;
 import com.github.viqbgrg.springbootoverseer.mapper.AccountMapper;
-import com.github.viqbgrg.springbootoverseer.service.BaseService;
+import com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.AccountInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
  * @since 2020-12-31
  */
 @Service
-public class AccountServiceImpl extends BaseService<AccountMapper, Account> implements IAccountService {
+public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> implements IAccountService {
 
     @Override
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {

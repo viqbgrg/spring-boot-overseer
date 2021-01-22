@@ -86,7 +86,10 @@ public class MysqlGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_")
                 .entityBuilder().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
-                .lombok(true).controllerBuilder().restStyle(true).hyphenStyle(true).serviceBuilder().superServiceClass("com.github.viqbgrg.springbootoverseer.service.BaseService").build();
+                .lombok(true).controllerBuilder().restStyle(true).hyphenStyle(true).serviceBuilder()
+                .superServiceImplClass("com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl")
+                .superServiceClass("com.github.viqbgrg.springbootoverseer.service.BaseService")
+                .build();
 
         mpg.strategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
