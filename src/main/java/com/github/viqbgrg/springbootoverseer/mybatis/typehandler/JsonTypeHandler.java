@@ -1,7 +1,10 @@
 package com.github.viqbgrg.springbootoverseer.mybatis.typehandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.BalanceInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.DeviceInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ProduceStat;
 import lombok.SneakyThrows;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
@@ -14,7 +17,7 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-@MappedTypes({ MineInfo.class })
+@MappedTypes({ MineInfo.class, BalanceInfo.class, DeviceInfo.class, ProduceStat.class })
 public class JsonTypeHandler<T> extends BaseTypeHandler<T> {
 
     private Class<T> type;

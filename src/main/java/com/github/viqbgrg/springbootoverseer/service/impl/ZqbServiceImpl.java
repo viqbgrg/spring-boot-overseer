@@ -80,7 +80,7 @@ public class ZqbServiceImpl implements ZqbService {
     public void getProduceStat(Account account) throws IOException {
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
-        String produceStat = zqbApi.getProduceStat();
+        ProduceStat produceStat = zqbApi.getProduceStat();
     }
 
     @Override
@@ -91,6 +91,12 @@ public class ZqbServiceImpl implements ZqbService {
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         MineInfo mineInfo = zqbApi.getMineInfo();
         accountData.setMineInfo(mineInfo);
+        DeviceInfo deviceInfo = zqbApi.getDeviceInfo();
+        accountData.setDeviceInfo(deviceInfo);
+        BalanceInfo balanceInfo = zqbApi.getBalanceInfo();
+        accountData.setBalanceInfo(balanceInfo);
+        ProduceStat produceStat = zqbApi.getProduceStat();
+        accountData.setProduceStat(produceStat);
         accountData.setUpdateAt(LocalDateTime.now());
         accountDataService.saveByException(accountData);
     }

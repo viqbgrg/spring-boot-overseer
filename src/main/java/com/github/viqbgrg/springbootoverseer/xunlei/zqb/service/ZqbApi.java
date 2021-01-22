@@ -6,10 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiCookies;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.UbusCdDTO;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
@@ -46,12 +43,13 @@ public class ZqbApi {
         this.cookies = apiCookies.toString();
     }
 
-    public String getProduceStat() throws IOException {
+    public ProduceStat getProduceStat() throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("appversion", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=mine/produce_stat", formBody, cookies);
-        return result;
+        ProduceStat produceStat = parsePojo(result, ProduceStat.class);
+        return produceStat;
     }
 
     public String drawcashInfo() throws IOException {
@@ -69,13 +67,14 @@ public class ZqbApi {
      * @return
      * @throws IOException
      */
-    public String asset() throws IOException {
+    public BalanceInfo getBalanceInfo() throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("v", "2")
                 .add("appversion", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=usr/asset", formBody, cookies);
-        return result;
+        BalanceInfo balanceInfo = parsePojo(result, BalanceInfo.class);
+        return balanceInfo;
     }
 
     /**
@@ -186,11 +185,12 @@ public class ZqbApi {
         return mineInfo;
     }
 
-    public String getDeviceInfo() throws IOException {
+    public DeviceInfo getDeviceInfo() throws IOException {
         HashMap<String, String> map = new HashMap<>();
         UbusCdDTO dt = new UbusCdDTO(apiInfo.getSessionID(), "server", "get_devices", map);
         String result = ZqbApi.getUbusCd(apiInfo.getSessionID(), apiInfo.getUserID(), dt);
-        return result;
+        DeviceInfo deviceInfo = parsePojo(result, DeviceInfo.class);
+        return deviceInfo;
     }
 
 

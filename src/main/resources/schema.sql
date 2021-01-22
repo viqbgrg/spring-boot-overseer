@@ -44,6 +44,9 @@ create table account_data
 (
     id         bigint(20)   not null auto_increment comment '账号主键',
     mine_info   json  not null comment '账号信息',
+    device_info   json  not null comment '账号信息',
+    balance_info   json  not null comment '账号信息',
+    produce_stat   json  not null comment '账号信息',
     update_at  timestamp comment '更新时间',
     PRIMARY KEY (id)
 );
