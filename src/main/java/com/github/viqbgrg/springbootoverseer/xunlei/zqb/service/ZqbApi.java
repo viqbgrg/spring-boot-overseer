@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyApiErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -210,9 +211,16 @@ public class ZqbApi {
         try {
             JsonNode jsonNode = JsonUtil.stringToJsonNode(result);
             JsonNode r = jsonNode.get("r");
-            if (r != null && r.asInt() != 0) {
-                log.error("账号过期:{}", jsonNode.toString());
-                throw new WkyExceedTimeException();
+            if (r != null) {
+                int code = r.asInt();
+                if (code != 0) {
+                    log.error("账号过期:{}", jsonNode.toString());
+                    throw new WkyExceedTimeException();
+                }
+                if (code == -12345) {
+                    log.error("api报错:{}", jsonNode.toString());
+                    throw new WkyApiErrorException();
+                }
             }
             t = JsonUtil.stringToPOJO(result, classType);
         } catch (JsonProcessingException e) {
