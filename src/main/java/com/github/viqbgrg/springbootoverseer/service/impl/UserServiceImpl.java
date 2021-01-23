@@ -9,6 +9,8 @@ import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 /**
  * <p>
  * 服务实现类
@@ -36,6 +38,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         DefaultPasswordService defaultPasswordService = new DefaultPasswordService();
         String s = defaultPasswordService.encryptPassword(user.getPassword());
         user.setPassword(s);
+        user.setCreateAt(LocalDateTime.now());
+        user.setLocked(false);
         return this.save(user);
     }
 }

@@ -5,7 +5,7 @@ CREATE TABLE user
     username  VARCHAR(30)  NULL DEFAULT NULL COMMENT '姓名',
     email     VARCHAR(50)  NULL DEFAULT NULL COMMENT '邮箱',
     password  varchar(100) NOT NULL COMMENT '密码',
-    locked    tinyint(1)   not null comment '用户是否锁定',
+    locked    tinyint(1)        default 0 comment '用户是否锁定',
     create_at timestamp    not null comment '用户创建时间',
     update_at timestamp comment '更新时间',
     PRIMARY KEY (id)

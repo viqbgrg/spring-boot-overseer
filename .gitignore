@@ -35,3 +35,6 @@ out/
 
 ### 账号信息等 ###
 application-test.yml
+application-dev.yml
+### 存放部署信息的 ###
+gradle.properties
