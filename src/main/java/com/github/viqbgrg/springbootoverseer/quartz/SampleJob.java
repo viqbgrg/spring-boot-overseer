@@ -7,14 +7,12 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeE
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 import lombok.extern.slf4j.Slf4j;
-import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -30,9 +28,22 @@ public class SampleJob extends QuartzJobBean {
             try {
                 zqbService.getUserData(account);
             } catch (WkyExceedTimeException e) {
+                try {
+                    zqbService.loginKey(account);
+                } catch (WkyUnknownErrorException wkyUnknownErrorException) {
+                    wkyUnknownErrorException.printStackTrace();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                } catch (WkyUsernamePasswordException wkyUsernamePasswordException) {
+                    wkyUsernamePasswordException.printStackTrace();
+                }
                 log.info("账号:{}的信息过期了", account.getUserID());
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (WkyUsernamePasswordException e) {
+                e.printStackTrace();
+            } catch (WkyUnknownErrorException e) {
                 e.printStackTrace();
             }
         });

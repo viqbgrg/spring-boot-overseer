@@ -1,5 +1,6 @@
 package com.github.viqbgrg.springbootoverseer.xunlei.zqb.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 
 import javax.net.ssl.*;
@@ -18,7 +19,7 @@ public class HttpUtil {
             = MediaType.get("application/json; charset=utf-8");
     private static OkHttpClient.Builder builder = getBuilder();
     private static OkHttpClient client = builder.build();
-
+    private static ObjectMapper objectMapper;
     private static OkHttpClient.Builder getBuilder() {
 //        return new OkHttpClient.Builder();
         return getUnsafeOkHttpClient();
@@ -55,7 +56,8 @@ public class HttpUtil {
             return chain.proceed(request1);
         }).build();
         try (Response response = clientNoUa.newCall(request).execute()) {
-            return response.body().string();
+            String result = response.body().string();
+            return result;
         }
     }
 

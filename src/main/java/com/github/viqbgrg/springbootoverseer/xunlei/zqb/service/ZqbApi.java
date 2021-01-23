@@ -208,6 +208,12 @@ public class ZqbApi {
     private <T> T parsePojo(String result, Class<T> classType) throws WkyExceedTimeException {
         T t = null;
         try {
+            JsonNode jsonNode = JsonUtil.stringToJsonNode(result);
+            JsonNode r = jsonNode.get("r");
+            if (r != null && r.asInt() != 0) {
+                log.error("账号过期:{}", jsonNode.toString());
+                throw new WkyExceedTimeException();
+            }
             t = JsonUtil.stringToPOJO(result, classType);
         } catch (JsonProcessingException e) {
             log.error("接口报错, 转换异常: {}: {}",classType.getName(), result);

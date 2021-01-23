@@ -69,10 +69,11 @@ public class ZqbServiceImpl implements ZqbService {
         LoginKeyDto loginKeyDto = new LoginKeyDto(account.getCreditkey(), account.getUserID(), account.getLoginKey(), ZqbLogin.devicesign(SecureUtil.md5(account.getUserName() + "23333")));
         AccountInfo accountInfo = ZqbLogin.loginKey(loginKeyDto);
         account.setUpdateAt(LocalDateTime.now());
+        account.setSessionID(accountInfo.getSessionID());
         account.setCreditkey(accountInfo.getCreditkey());
         account.setLoginKey(accountInfo.getLoginKey());
         account.setSecureKey(accountInfo.getSecureKey());
-        accountService.save(account);
+        accountService.updateById(account);
         return accountInfo;
     }
 
@@ -84,9 +85,10 @@ public class ZqbServiceImpl implements ZqbService {
     }
 
     @Override
-    public void getUserData(Account account) throws IOException {
+    public void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException {
         log.info("获取账号{}的信息", account.getUserID());
         AccountData accountData = new AccountData();
+        accountData.setUserID(account.getUserID());
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         MineInfo mineInfo = zqbApi.getMineInfo();

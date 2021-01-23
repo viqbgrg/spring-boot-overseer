@@ -29,6 +29,10 @@ public class JsonUtil {
         return mapper.readValue(content, valueType);
     }
 
+    public static <T> T treeToPOJO(JsonNode node, Class<T> valueType) throws JsonProcessingException {
+        return mapper.convertValue(node, valueType);
+    }
+
     /**
      * 对象转字符串
      *

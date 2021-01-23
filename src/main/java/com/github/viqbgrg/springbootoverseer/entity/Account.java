@@ -2,10 +2,6 @@ package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.BalanceInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.Devices;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ProduceStat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,15 +10,15 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author bing
- * @since 2021-01-22
+ * @since 2021-01-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AccountData implements Serializable {
+public class Account implements Serializable {
 
 
     /**
@@ -32,20 +28,43 @@ public class AccountData implements Serializable {
     private Long id;
 
     /**
-     * 账号信息
+     * 登陆账号
      */
-    private MineInfo mineInfo;
+    private String userName;
 
+    /**
+     * 登陆密码
+     */
+    private String password;
 
     /**
      * 账号id
      */
     private String userID;
-    private Devices deviceInfo;
 
-    private BalanceInfo balanceInfo;
+    /**
+     * 账号昵称
+     */
+    private String nickName;
 
-    private ProduceStat produceStat;
+    /**
+     * 再次登陆的key
+     */
+    private String loginKey;
+
+    /**
+     * 再次登陆的key
+     */
+    private String sessionID;
+
+    private String creditkey;
+
+    private String secureKey;
+
+    /**
+     * 用户创建时间
+     */
+    private LocalDateTime createAt;
 
     /**
      * 更新时间
