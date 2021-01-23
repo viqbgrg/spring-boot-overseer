@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author bing
- * @since 2021-01-13
+ * @since 2021-01-23
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -45,7 +45,7 @@ public class User implements Serializable {
     /**
      * 用户是否锁定
      */
-    private Integer locked;
+    private Boolean locked;
 
     /**
      * 用户创建时间
