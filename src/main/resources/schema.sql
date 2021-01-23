@@ -15,17 +15,17 @@ CREATE TABLE user
 drop table if exists account;
 create table account
 (
-    id         bigint(20)   not null auto_increment comment '账号主键',
-    username   varchar(20)  not null comment '登陆账号',
-    password   varchar(50)  not null comment '登陆密码',
+    id          bigint(20)   not null auto_increment comment '账号主键',
+    password    varchar(50)  not null comment '登陆密码',
     user_i_d    varchar(20)  not null comment '账号id',
-    nick_name  varchar(20)  not null comment '账号昵称',
-    login_key  varchar(105) not null comment '再次登陆的key',
+    user_name   varchar(20)  not null comment '登陆账号',
+    nick_name   varchar(20)  not null comment '账号昵称',
+    login_key   varchar(105) not null comment '再次登陆的key',
     session_i_d varchar(105) not null comment '再次登陆的key',
-    creditkey  varchar(135) not null,
-    secure_key varchar(40)  not null,
-    create_at  timestamp    not null comment '用户创建时间',
-    update_at  timestamp comment '更新时间',
+    creditkey   varchar(135) not null,
+    secure_key  varchar(40)  not null,
+    create_at   timestamp    not null comment '用户创建时间',
+    update_at   timestamp comment '更新时间',
     PRIMARY KEY (id)
 );
 

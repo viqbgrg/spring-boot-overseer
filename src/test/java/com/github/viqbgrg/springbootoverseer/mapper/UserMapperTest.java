@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,7 +28,7 @@ public class UserMapperTest {
         user.setPassword("123456");
         user.setEmail("123456@qq.com");
         user.setCreateAt(LocalDateTime.now());
-        user.setLocked(0);
+        user.setLocked(false);
         int insert = userMapper.insert(user);
         assertThat(insert).isGreaterThan(0);
         List<User> users = userMapper.selectList(new LambdaQueryWrapper<User>().eq(User::getUsername, "username"));

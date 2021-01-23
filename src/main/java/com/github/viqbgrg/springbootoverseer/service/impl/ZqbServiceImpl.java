@@ -53,7 +53,7 @@ public class ZqbServiceImpl implements ZqbService {
     @Override
     public AccountInfo login(Account account) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
         XunleiAccount xunleiAccount = new XunleiAccount();
-        xunleiAccount.setUsername(account.getUsername());
+        xunleiAccount.setUsername(account.getUserName());
         xunleiAccount.setPassword(account.getPassword());
         AccountInfo login = ZqbLogin.login(xunleiAccount);
         account.setUpdateAt(LocalDateTime.now());
@@ -66,7 +66,7 @@ public class ZqbServiceImpl implements ZqbService {
 
     @Override
     public AccountInfo loginKey(Account account) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
-        LoginKeyDto loginKeyDto = new LoginKeyDto(account.getCreditkey(), account.getUserID(), account.getLoginKey(), ZqbLogin.devicesign(SecureUtil.md5(account.getUsername() + "23333")));
+        LoginKeyDto loginKeyDto = new LoginKeyDto(account.getCreditkey(), account.getUserID(), account.getLoginKey(), ZqbLogin.devicesign(SecureUtil.md5(account.getUserName() + "23333")));
         AccountInfo accountInfo = ZqbLogin.loginKey(loginKeyDto);
         account.setUpdateAt(LocalDateTime.now());
         account.setCreditkey(accountInfo.getCreditkey());
@@ -91,7 +91,7 @@ public class ZqbServiceImpl implements ZqbService {
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         MineInfo mineInfo = zqbApi.getMineInfo();
         accountData.setMineInfo(mineInfo);
-        DeviceInfo deviceInfo = zqbApi.getDeviceInfo();
+        Devices deviceInfo = zqbApi.getDeviceInfo();
         accountData.setDeviceInfo(deviceInfo);
         BalanceInfo balanceInfo = zqbApi.getBalanceInfo();
         accountData.setBalanceInfo(balanceInfo);

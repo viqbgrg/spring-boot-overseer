@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +21,7 @@ class UsersMapperTest {
         User users = new User();
         users.setUsername("test");
         users.setPassword("123456");
-        users.setLocked(0);
+        users.setLocked(false);
         LocalDateTime now = LocalDateTime.now();
         users.setCreateAt(now);
         users.setUpdateAt(now);

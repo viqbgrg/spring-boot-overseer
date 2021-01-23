@@ -2,15 +2,15 @@ package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
-
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.BalanceInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.DeviceInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.Devices;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ProduceStat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -36,7 +36,7 @@ public class AccountData implements Serializable {
      */
     private MineInfo mineInfo;
 
-    private DeviceInfo deviceInfo;
+    private Devices deviceInfo;
 
     private BalanceInfo balanceInfo;
 

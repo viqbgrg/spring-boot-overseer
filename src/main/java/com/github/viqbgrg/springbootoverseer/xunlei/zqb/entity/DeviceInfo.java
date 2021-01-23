@@ -1,11 +1,12 @@
 package com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -45,6 +46,7 @@ import java.util.Map;
         "dcdn_upnp_message"
 })
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DeviceInfo {
 
     @JsonProperty("device_sn")
@@ -63,6 +65,8 @@ public class DeviceInfo {
     private String macAddress;
     @JsonProperty("lan_ip")
     private String lanIp;
+    @JsonProperty("lan_ipv6")
+    private String lanIpv6;
     @JsonProperty("account_id")
     private String accountId;
     @JsonProperty("account_name")
@@ -86,11 +90,11 @@ public class DeviceInfo {
     @JsonProperty("imported")
     private Integer imported;
     @JsonProperty("bind_time")
-    private Integer bindTime;
+    private Long bindTime;
     @JsonProperty("connect_time")
-    private Integer connectTime;
+    private Long connectTime;
     @JsonProperty("disconnect_time")
-    private Integer disconnectTime;
+    private Long disconnectTime;
     @JsonProperty("device_id")
     private String deviceId;
     @JsonProperty("paused")
@@ -98,7 +102,7 @@ public class DeviceInfo {
     @JsonProperty("hibernated")
     private Boolean hibernated;
     @JsonProperty("disk_quota")
-    private Integer diskQuota;
+    private Long diskQuota;
     @JsonProperty("schedule_hours")
     private List<ScheduleHour> scheduleHours = null;
     @JsonProperty("dcdn_upnp_status")
@@ -212,7 +216,7 @@ public class DeviceInfo {
 
     })
     @Data
-    private class Params {
+    static class Params {
 
 
     }

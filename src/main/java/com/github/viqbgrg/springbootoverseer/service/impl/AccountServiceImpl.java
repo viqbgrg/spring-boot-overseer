@@ -33,12 +33,12 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> 
     @Override
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
         Subject subject = SecurityUtils.getSubject();
-        User user = (User) subject.getPrincipals();
+        User user = (User) subject.getPrincipal();
         LocalDateTime now = LocalDateTime.now();
-        ZqbLogin zqbLogin = new ZqbLogin();
-        AccountInfo login = zqbLogin.login(xunleiAccount);
+        AccountInfo login = ZqbLogin.login(xunleiAccount);
         Account account = new Account();
         BeanUtils.copyProperties(login, account);
+        account.setPassword(xunleiAccount.getPassword());
         account.setCreateAt(now);
         account.setUpdateAt(now);
         this.save(account);

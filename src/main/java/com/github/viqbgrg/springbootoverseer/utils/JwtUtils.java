@@ -16,7 +16,7 @@ import java.util.Date;
 @Slf4j
 public class JwtUtils {
     // 过期时间5分钟
-    private static final long EXPIRE_TIME = 5*60;
+    private static final long EXPIRE_TIME = 60 * 60;
     public static String sign(String username, String salt) {
         return sign(username, salt, EXPIRE_TIME);
     }

@@ -48,10 +48,12 @@ public class JwtAuthFilter extends AuthenticatingFilter {
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-        if (httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) //对于OPTION请求做拦截，不做token校验
-            return false;
+        //对于OPTION请求做拦截，不做token校验
+        if (!httpServletRequest.getMethod().equals(RequestMethod.OPTIONS.name())) {
+            return super.preHandle(request, response);
+        }
+        return false;
 
-        return super.preHandle(request, response);
     }
 
     @Override

@@ -55,7 +55,7 @@ class ZqbApiTest {
 
     @Test
     void getDeviceInfo() throws IOException {
-        DeviceInfo deviceInfo = zqbApi.getDeviceInfo();
+        Devices deviceInfo = zqbApi.getDeviceInfo();
         System.out.println(deviceInfo);
     }
 }

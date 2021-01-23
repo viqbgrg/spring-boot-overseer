@@ -26,7 +26,7 @@ public class QuartzConfig {
         return TriggerBuilder.newTrigger().forJob(job)
                 .withIdentity("trigger1", "group1")
                 .withDescription("Sample trigger")
-                .withSchedule(simpleSchedule().repeatForever().withIntervalInSeconds(5))
+                .withSchedule(simpleSchedule().repeatForever().withIntervalInMinutes(5))
                 .build();
     }
 }

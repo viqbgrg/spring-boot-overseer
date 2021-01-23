@@ -2,6 +2,7 @@ package com.github.viqbgrg.springbootoverseer.xunlei.zqb.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
@@ -16,7 +17,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -186,12 +189,19 @@ public class ZqbApi {
         return mineInfo;
     }
 
-    public DeviceInfo getDeviceInfo() throws IOException {
+    public Devices getDeviceInfo() throws IOException {
         HashMap<String, String> map = new HashMap<>();
         UbusCdDTO dt = new UbusCdDTO(apiInfo.getSessionID(), "server", "get_devices", map);
         String result = ZqbApi.getUbusCd(apiInfo.getSessionID(), apiInfo.getUserID(), dt);
-        DeviceInfo deviceInfo = parsePojo(result, DeviceInfo.class);
-        return deviceInfo;
+        JsonNode jsonNode = JsonUtil.stringToJsonNode(result);
+        JsonNode devicesNode = jsonNode.withArray("result").get(1).get("devices");
+
+        Devices devices = new Devices();
+        List<DeviceInfo> deviceInfoList = new ArrayList<>(2);
+        deviceInfoList.add(parsePojo(devicesNode.get(0).toString(), DeviceInfo.class));
+        deviceInfoList.add(parsePojo(devicesNode.get(1).toString(), DeviceInfo.class));
+        devices.setDeviceInfoList(deviceInfoList);
+        return devices;
     }
 
 
