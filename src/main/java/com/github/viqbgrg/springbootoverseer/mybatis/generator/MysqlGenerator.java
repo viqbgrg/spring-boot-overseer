@@ -1,6 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.mybatis.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -86,7 +87,7 @@ public class MysqlGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_")
                 .entityBuilder().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
-                .lombok(true).controllerBuilder().restStyle(true).hyphenStyle(true).serviceBuilder()
+                .lombok(true).idType(IdType.INPUT).controllerBuilder().restStyle(true).hyphenStyle(true).serviceBuilder()
                 .superServiceImplClass("com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl")
                 .superServiceClass("com.github.viqbgrg.springbootoverseer.service.BaseService")
                 .build();

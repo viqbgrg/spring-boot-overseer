@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class LoginKeyDto {
 
-    public LoginKeyDto(String creditkey, String userId, String loginKey, String deviceKey) {
+    public LoginKeyDto(String creditkey, Long userId, String loginKey, String deviceKey) {
         this.setProtocolVersion("301");
         this.setSequenceNo("1000001");
         this.setPlatformVersion("10");
@@ -23,7 +23,7 @@ public class LoginKeyDto {
         this.setDeviceName("Oneplus A3010");
         this.setOSVersion("9");
         this.setCreditkey(creditkey);
-        this.setUserName(userId);
+        this.setUserName(Long.toString(userId));
         this.setLoginKey(loginKey);
     }
 

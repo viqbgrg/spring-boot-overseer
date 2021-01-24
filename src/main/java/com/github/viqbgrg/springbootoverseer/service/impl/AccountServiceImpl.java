@@ -6,6 +6,7 @@ import com.github.viqbgrg.springbootoverseer.entity.UserAccount;
 import com.github.viqbgrg.springbootoverseer.mapper.AccountMapper;
 import com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
+import com.github.viqbgrg.springbootoverseer.service.IUserAccountService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.AccountInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
@@ -14,6 +15,7 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbLogin;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,6 +32,9 @@ import java.time.LocalDateTime;
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> implements IAccountService {
 
+    @Autowired
+    private IUserAccountService userAccountService;
+
     @Override
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
         Subject subject = SecurityUtils.getSubject();
@@ -39,12 +44,15 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> 
         Account account = new Account();
         BeanUtils.copyProperties(login, account);
         account.setPassword(xunleiAccount.getPassword());
+        account.setUserID(Long.parseLong(login.getUserID()));
         account.setCreateAt(now);
         account.setUpdateAt(now);
         this.save(account);
         UserAccount userAccount = new UserAccount();
-        userAccount.setAccountId(account.getId());
+        userAccount.setWkyUserID(account.getUserID());
         userAccount.setUserId(user.getId());
+        userAccount.setCreateAt(LocalDateTime.now());
+        userAccountService.save(userAccount);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyLoginKeyExceedTimeException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 import lombok.extern.java.Log;
@@ -101,6 +102,8 @@ public class ZqbLogin {
             LoginErrorDto loginErrorDto = JsonUtil.stringToPOJO(content, LoginErrorDto.class);
             if ("3".equals(loginErrorDto.getErrorCode())) {
                 throw new WkyUsernamePasswordException(loginErrorDto.getErrorDesc());
+            } else if ("15".equals(loginErrorDto.getErrorCode())) {
+                throw new WkyLoginKeyExceedTimeException();
             } else {
                 throw new WkyUnknownErrorException(loginErrorDto.getErrorDesc());
             }

@@ -22,8 +22,8 @@ public class HttpUtil {
     private static ObjectMapper objectMapper;
     private static OkHttpClient.Builder getBuilder() {
 //        return new OkHttpClient.Builder();
-        return getUnsafeOkHttpClient();
-//        return setProxy(getUnsafeOkHttpClient(), "127.0.0.1", 8888);
+//        return getUnsafeOkHttpClient();
+        return setProxy(getUnsafeOkHttpClient(), "127.0.0.1", 8888);
     }
 
 

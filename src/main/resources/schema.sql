@@ -15,9 +15,8 @@ CREATE TABLE user
 drop table if exists account;
 create table account
 (
-    id          bigint(20)   not null auto_increment comment '账号主键',
     password    varchar(50)  not null comment '登陆密码',
-    user_i_d    varchar(20)  not null comment '账号id',
+    user_i_d    BIGINT(20)   not null comment '账号id',
     user_name   varchar(20)  not null comment '登陆账号',
     nick_name   varchar(20)  not null comment '账号昵称',
     login_key   varchar(105) not null comment '再次登陆的key',
@@ -26,28 +25,27 @@ create table account
     secure_key  varchar(40)  not null,
     create_at   timestamp    not null comment '用户创建时间',
     update_at   timestamp comment '更新时间',
-    PRIMARY KEY (id)
+    PRIMARY KEY (user_i_d)
 );
 
 drop table if exists user_account;
-CREATE TABLE `user_account` (
-    `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '账号主键',
-    `user_id` bigint(20) NOT NULL COMMENT '用户id',
-    `account_id` bigint(20) NOT NULL COMMENT '用户id',
-    `create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '用户创建时间',
-    `update_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新时间',
-    PRIMARY KEY (`id`)
+CREATE TABLE user_account
+(
+    user_id   BIGINT(20) NOT NULL COMMENT '用户id',
+    user_i_d  BIGINT(20) NOT NULL COMMENT '账户的用户id',
+    create_at timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '用户创建时间',
+    update_at timestamp ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (user_id, user_i_d)
 );
 
 drop table if exists account_data;
 create table account_data
 (
-    id           bigint(20)  not null auto_increment comment '账号主键',
-    user_i_d     varchar(20) not null comment '账号id',
-    mine_info    json        not null comment '账号信息',
-    device_info  json        not null comment '账号信息',
-    balance_info json        not null comment '账号信息',
-    produce_stat json        not null comment '账号信息',
+    user_i_d     BIGINT(20) not null comment '账号id',
+    mine_info    json       not null comment '账号信息',
+    device_info  json       not null comment '账号信息',
+    balance_info json       not null comment '账号信息',
+    produce_stat json       not null comment '账号信息',
     update_at    timestamp comment '更新时间',
-    PRIMARY KEY (id)
+    PRIMARY KEY (user_i_d)
 );

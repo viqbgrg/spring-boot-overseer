@@ -60,7 +60,8 @@ public class ZqbServiceImpl implements ZqbService {
         account.setCreditkey(login.getCreditkey());
         account.setLoginKey(login.getLoginKey());
         account.setSecureKey(login.getSecureKey());
-        accountService.save(account);
+        account.setSessionID(login.getSessionID());
+        accountService.updateById(account);
         return login;
     }
 
@@ -70,7 +71,6 @@ public class ZqbServiceImpl implements ZqbService {
         AccountInfo accountInfo = ZqbLogin.loginKey(loginKeyDto);
         account.setUpdateAt(LocalDateTime.now());
         account.setSessionID(accountInfo.getSessionID());
-        account.setCreditkey(accountInfo.getCreditkey());
         account.setLoginKey(accountInfo.getLoginKey());
         account.setSecureKey(accountInfo.getSecureKey());
         accountService.updateById(account);

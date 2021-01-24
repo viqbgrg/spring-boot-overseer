@@ -97,11 +97,11 @@ public class ZqbApi {
         return result;
     }
 
-    private static String getUbusCd(String sessionId, String accountId, UbusCdDTO ubusCdDTO) throws IOException {
+    private static String getUbusCd(String sessionId, Long accountId, UbusCdDTO ubusCdDTO) throws IOException {
         String time = LocalDateTime.now().toInstant(ZoneOffset.of("+8")).toEpochMilli() + "";
         //把代理设置到请求配置
         String url = MessageFormat.format("https://ocapi.peiluyou.com:8009/ubus_cd?account_id={0}&session_id={1}&action=ubus_{2}",
-                accountId, sessionId, time);
+                String.valueOf(accountId), sessionId, time);
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode objectNode = objectMapper.createObjectNode();
         objectNode.put("jsonrpc", "2.0");
@@ -196,7 +196,6 @@ public class ZqbApi {
         String result = ZqbApi.getUbusCd(apiInfo.getSessionID(), apiInfo.getUserID(), dt);
         JsonNode jsonNode = JsonUtil.stringToJsonNode(result);
         JsonNode devicesNode = jsonNode.withArray("result").get(1).get("devices");
-
         Devices devices = new Devices();
         List<DeviceInfo> deviceInfoList = new ArrayList<>(2);
         deviceInfoList.add(parsePojo(devicesNode.get(0).toString(), DeviceInfo.class));

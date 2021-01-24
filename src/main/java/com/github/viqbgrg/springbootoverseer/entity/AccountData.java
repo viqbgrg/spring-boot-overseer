@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author bing
- * @since 2021-01-22
+ * @since 2021-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,25 +26,29 @@ public class AccountData implements Serializable {
 
 
     /**
-     * 账号主键
+     * 账号id
      */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    @TableId(value = "user_i_d", type = IdType.INPUT)
+    private Long userID;
 
     /**
      * 账号信息
      */
     private MineInfo mineInfo;
 
-
     /**
-     * 账号id
+     * 账号信息
      */
-    private String userID;
     private Devices deviceInfo;
 
+    /**
+     * 账号信息
+     */
     private BalanceInfo balanceInfo;
 
+    /**
+     * 账号信息
+     */
     private ProduceStat produceStat;
 
     /**

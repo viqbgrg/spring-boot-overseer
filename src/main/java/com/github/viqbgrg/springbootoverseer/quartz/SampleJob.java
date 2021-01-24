@@ -3,10 +3,7 @@ package com.github.viqbgrg.springbootoverseer.quartz;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.service.ZqbService;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyApiErrorException;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -39,6 +36,17 @@ public class SampleJob extends QuartzJobBean {
                 try {
                     zqbService.loginKey(account);
                 } catch (WkyUnknownErrorException wkyUnknownErrorException) {
+                    wkyUnknownErrorException.printStackTrace();
+                } catch (WkyLoginKeyExceedTimeException wkyUnknownErrorException) {
+                    try {
+                        zqbService.login(account);
+                    } catch (WkyUnknownErrorException unknownErrorException) {
+                        unknownErrorException.printStackTrace();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    } catch (WkyUsernamePasswordException wkyUsernamePasswordException) {
+                        wkyUsernamePasswordException.printStackTrace();
+                    }
                     wkyUnknownErrorException.printStackTrace();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();

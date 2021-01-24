@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class ApiCookies {
     private String sessionid;
-    private String userid;
+    private Long userid;
     private String origin;
     private String nickname;
     private String usernick;
