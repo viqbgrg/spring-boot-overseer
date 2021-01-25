@@ -14,23 +14,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author bing
- * @since 2021-01-23
+ * @since 2021-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Account implements Serializable {
 
-
-    /**
-     * 账号主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
-    /**
-     * 登陆账号
-     */
-    private String userName;
 
     /**
      * 登陆密码
@@ -40,7 +29,13 @@ public class Account implements Serializable {
     /**
      * 账号id
      */
-    private String userID;
+    @TableId(value = "user_i_d", type = IdType.INPUT)
+    private Long userID;
+
+    /**
+     * 登陆账号
+     */
+    private String userName;
 
     /**
      * 账号昵称

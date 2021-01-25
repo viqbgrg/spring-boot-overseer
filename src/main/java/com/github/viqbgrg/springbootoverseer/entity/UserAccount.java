@@ -1,6 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,11 +11,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author bing
- * @since 2021-01-13
+ * @since 2021-01-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -22,20 +23,16 @@ public class UserAccount implements Serializable {
 
 
     /**
-     * 账号主键
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
-    /**
      * 用户id
      */
+    @TableId(value = "user_id", type = IdType.INPUT)
     private Long userId;
 
     /**
-     * 用户id
+     * 账户的用户id
      */
-    private Long accountId;
+    @TableField(value = "user_i_d")
+    private Long wkyUserID;
 
     /**
      * 用户创建时间
