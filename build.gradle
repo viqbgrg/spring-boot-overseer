@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id "com.thinkimi.gradle.MybatisGenerator" version "2.2"
+    id "org.hidetake.ssh" version "2.10.1"
     id 'java'
 }
 repositories {
@@ -63,4 +64,33 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-print "${host}"
+
+ssh.settings {
+    knownHosts = allowAnyHosts
+}
+remotes {
+    cc {
+        host = host
+        port = port
+        user = user
+        password = password
+    }
+}
+
+task remoteDeploy(dependsOn: [clean, bootJar]) {
+    doLast {
+        ssh.run {
+            session(remotes.cc) {
+                // Execute a command
+                def result = execute 'service overseer restart'
+
+                // Any Gradle methods or properties are available in a session closure
+                put from:bootJar.archiveFile.get().toString(), into:"/root/overseer/"
+
+
+                // Also Groovy methods or properties are available in a session closure
+                println result
+            }
+        }
+    }
+}
