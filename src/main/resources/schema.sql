@@ -7,7 +7,7 @@ CREATE TABLE user
     password  varchar(100) NOT NULL COMMENT '密码',
     locked    tinyint(1)        default 0 comment '用户是否锁定',
     create_at timestamp    not null comment '用户创建时间',
-    update_at timestamp comment '更新时间',
+    update_at timestamp null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (id)
 );
 
@@ -24,7 +24,7 @@ create table account
     creditkey   varchar(135) not null,
     secure_key  varchar(40)  not null,
     create_at   timestamp    not null comment '用户创建时间',
-    update_at   timestamp comment '更新时间',
+    update_at   timestamp null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (user_i_d)
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE user_account
     user_id   BIGINT(20) NOT NULL COMMENT '用户id',
     user_i_d  BIGINT(20) NOT NULL COMMENT '账户的用户id',
     create_at timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '用户创建时间',
-    update_at timestamp ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    update_at timestamp null ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (user_id, user_i_d)
 );
 
@@ -46,6 +46,6 @@ create table account_data
     device_info  json       not null comment '账号信息',
     balance_info json       not null comment '账号信息',
     produce_stat json       not null comment '账号信息',
-    update_at    timestamp comment '更新时间',
+    update_at    timestamp null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (user_i_d)
 );

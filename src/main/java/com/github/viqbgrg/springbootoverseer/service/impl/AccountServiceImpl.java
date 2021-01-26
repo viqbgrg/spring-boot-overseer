@@ -49,7 +49,7 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> 
         account.setUpdateAt(now);
         this.save(account);
         UserAccount userAccount = new UserAccount();
-        userAccount.setWkyUserID(account.getUserID());
+        userAccount.setUserID(account.getUserID());
         userAccount.setUserId(user.getId());
         userAccount.setCreateAt(LocalDateTime.now());
         userAccountService.save(userAccount);

@@ -4,9 +4,6 @@ spring:
   web:
     resources:
       add-mappings: false
-#logging:
-#  file:
-#    path: /var/log/springboot/
 mybatis-plus:
   #对应mapper路劲
   mapper-locations: classpath*:mapper/*.xml

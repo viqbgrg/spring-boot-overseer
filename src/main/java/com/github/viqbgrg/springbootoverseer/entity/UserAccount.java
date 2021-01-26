@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
  * @author bing
  * @since 2021-01-24
  */
-@Data
 @EqualsAndHashCode(callSuper = false)
 public class UserAccount implements Serializable {
 
@@ -32,7 +31,7 @@ public class UserAccount implements Serializable {
      * 账户的用户id
      */
     @TableField(value = "user_i_d")
-    private Long wkyUserID;
+    private Long userID;
 
     /**
      * 用户创建时间
@@ -44,5 +43,35 @@ public class UserAccount implements Serializable {
      */
     private LocalDateTime updateAt;
 
+    public Long getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public LocalDateTime getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(LocalDateTime createAt) {
+        this.createAt = createAt;
+    }
+
+    public LocalDateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updateAt) {
+        this.updateAt = updateAt;
+    }
 }
