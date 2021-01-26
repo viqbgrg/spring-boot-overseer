@@ -63,3 +63,4 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+print "${host}"
