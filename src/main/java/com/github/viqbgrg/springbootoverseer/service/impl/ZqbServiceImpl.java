@@ -4,6 +4,7 @@ import cn.hutool.crypto.SecureUtil;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.AccountData;
 import com.github.viqbgrg.springbootoverseer.service.IAccountDataService;
+import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.service.ZqbService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,11 +30,13 @@ public class ZqbServiceImpl implements ZqbService {
     private List<Account> accounts;
     private IAccountService accountService;
     private IAccountDataService accountDataService;
+    private IAccountHistoryService accountHistoryService;
 
 
-    public ZqbServiceImpl(IAccountService accountService, IAccountDataService accountDataService) {
+    public ZqbServiceImpl(IAccountService accountService, IAccountDataService accountDataService, IAccountHistoryService accountHistoryService) {
         this.accountService = accountService;
         this.accountDataService = accountDataService;
+        this.accountHistoryService = accountHistoryService;
     }
 
 
@@ -101,6 +105,13 @@ public class ZqbServiceImpl implements ZqbService {
         accountData.setProduceStat(produceStat);
         accountData.setUpdateAt(LocalDateTime.now());
         accountDataService.saveByException(accountData);
+    }
+
+    public void saveHistory(Account account) {
+        Long userID = account.getUserID();
+        LocalDate now = LocalDate.now();
+//        accountHistoryService.getOne(Wrappers.lambdaQuery(AccountHistory.class).allEq());
+
     }
 
 

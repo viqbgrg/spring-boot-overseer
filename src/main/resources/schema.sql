@@ -46,6 +46,25 @@ create table account_data
     device_info  json       not null comment '账号信息',
     balance_info json       not null comment '账号信息',
     produce_stat json       not null comment '账号信息',
-    update_at    timestamp null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    update_at    timestamp  null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (user_i_d)
 );
+
+drop table if exists account_history;
+create table account_history
+(
+    user_i_d     BIGINT(20) not null comment '账号id',
+    day          date       not null comment '日期',
+    pdc          int(6)     not null default 0 comment '',
+    box_pdc      int(6)     not null default 0 comment '',
+    last_speed   int(6)     not null default 0 comment '速度',
+    deploy_speed int(6)     not null default 0 comment '速度',
+    balance      int(6)     not null default 0 comment '',
+    income       int(6)     not null default 0 comment '',
+    refreshes    int(6)     not null default 0 comment '',
+    speed_stat   json       not null comment '',
+    pdc_detail   json       not null comment '',
+    produce_stat json       not null comment '',
+    update_at    timestamp  null     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    primary key (user_i_d, day)
+)
