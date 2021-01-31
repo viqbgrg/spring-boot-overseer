@@ -1,8 +1,10 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.AccountData;
+import com.github.viqbgrg.springbootoverseer.entity.AccountHistory;
 import com.github.viqbgrg.springbootoverseer.service.IAccountDataService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
@@ -14,11 +16,14 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbApi;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbLogin;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author viqbg
@@ -107,10 +112,21 @@ public class ZqbServiceImpl implements ZqbService {
         accountDataService.saveByException(accountData);
     }
 
+    @Override
     public void saveHistory(Account account) {
         Long userID = account.getUserID();
         LocalDate now = LocalDate.now();
-//        accountHistoryService.getOne(Wrappers.lambdaQuery(AccountHistory.class).allEq());
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userID", account.getUserID());
+        map.put("day", now);
+        AccountHistory one = accountHistoryService.getOne(Wrappers.lambdaQuery(AccountHistory.class).eq(AccountHistory::getUserID, account.getUserID()).eq(AccountHistory::getDay, now));
+        if (ObjectUtils.isEmpty(one)) {
+            one = new AccountHistory();
+            one.setUpdateAt(localDateTime);
+            one.setRefreshes(1);
+        }
+
 
     }
 

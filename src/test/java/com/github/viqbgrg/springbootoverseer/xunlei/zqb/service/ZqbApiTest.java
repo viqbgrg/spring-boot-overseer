@@ -31,7 +31,7 @@ class ZqbApiTest {
         XunleiAccount account = new XunleiAccount();
         BeanUtils.copyProperties(xunleiAccountDto, account);
         AccountInfo login = ZqbLogin.login(account);
-        ApiInfo apiInfo = new ApiInfo(login.getSessionID(), login.getUserID(), login.getNickName());
+        ApiInfo apiInfo = new ApiInfo(login.getSessionID(), Long.parseLong(login.getUserID()), login.getNickName());
         zqbApi = new ZqbApi(apiInfo);
     }
 

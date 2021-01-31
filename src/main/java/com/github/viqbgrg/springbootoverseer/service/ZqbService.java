@@ -18,4 +18,6 @@ public interface ZqbService {
     void getProduceStat(Account account) throws IOException;
 
     void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException;
+
+    void saveHistory(Account account);
 }
