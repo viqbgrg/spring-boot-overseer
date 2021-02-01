@@ -55,8 +55,8 @@ create table account_history
 (
     user_i_d     BIGINT(20) not null comment '账号id',
     day          date       not null comment '日期',
-    pdc          int(6)     not null default 0 comment '',
-    box_pdc      int(6)     not null default 0 comment '',
+    pdc          int(6)     not null default 0 comment '水晶产量',
+    box_pdc      int(6)     not null default 0 comment '宝箱',
     last_speed   int(6)     not null default 0 comment '速度',
     deploy_speed int(6)     not null default 0 comment '速度',
     balance      int(6)     not null default 0 comment '',

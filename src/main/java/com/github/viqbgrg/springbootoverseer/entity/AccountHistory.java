@@ -53,11 +53,11 @@ public class AccountHistory implements Serializable {
 
     private Integer refreshes;
 
-    private String speedStat;
+    private Integer[] speedStat;
 
-    private String pdcDetail;
+    private Integer[] pdcDetail;
 
-    private String produceStat;
+    private Integer[] produceStat;
 
     /**
      * 更新时间

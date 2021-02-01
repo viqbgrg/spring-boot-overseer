@@ -14,8 +14,9 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
-@MappedTypes({MineInfo.class, BalanceInfo.class, Devices.class, ProduceStat.class})
+@MappedTypes({MineInfo.class, BalanceInfo.class, Devices.class, ProduceStat.class, Integer[].class})
 public class JsonTypeHandler<T> extends BaseTypeHandler<T> {
 
     private Class<T> type;

@@ -119,16 +119,25 @@ public class ZqbServiceImpl implements ZqbService {
         LocalDate now = LocalDate.now();
         LocalDateTime localDateTime = LocalDateTime.now();
         Map<String, Object> map = new HashMap<>();
-        map.put("userID", account.getUserID());
+        map.put("userID", userID);
         map.put("day", now);
         QueryWrapper<AccountHistory> classQueryWrapper = Wrappers.<AccountHistory>query().allEq(map);
-        AccountHistory one = accountHistoryService.getOne(classQueryWrapper);
-        if (ObjectUtils.isEmpty(one)) {
-            one = new AccountHistory();
-            one.setUpdateAt(localDateTime);
-            one.setRefreshes(1);
+        AccountHistory todayData = accountHistoryService.getOne(classQueryWrapper);
+        if (ObjectUtils.isEmpty(todayData)) {
+            todayData = new AccountHistory();
+            todayData.setUpdateAt(localDateTime);
+            todayData.setRefreshes(1);
         }
-
+        AccountData accountData = accountDataService.getById(userID);
+        LocalDateTime updateAt = accountData.getUpdateAt();
+        if (updateAt.plusMinutes(30).isBefore(localDateTime) || updateAt.getDayOfMonth() != now.getDayOfMonth()){
+            return;
+        }
+        int speed = 0;
+        int pdc = accountData.getMineInfo().getDev_m().getPdc();
+        todayData.setPdc(todayData.getPdc() + pdc);
+        todayData.setBoxPdc(todayData.getBoxPdc() + accountData.getMineInfo().getTd_box_pdc());
+        todayData.setPdcDetail(todayData.getPdcDetail().);
 
     }
 

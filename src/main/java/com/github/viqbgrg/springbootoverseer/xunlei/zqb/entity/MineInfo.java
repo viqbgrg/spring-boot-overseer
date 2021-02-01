@@ -24,7 +24,7 @@ public class MineInfo {
     private int act_id;
     private String icon;
     @Data
-    static class DevM{
+    public static class DevM{
         private int pdc;
         private String info;
         private String url;
