@@ -1,6 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.AccountData;
@@ -120,7 +121,8 @@ public class ZqbServiceImpl implements ZqbService {
         Map<String, Object> map = new HashMap<>();
         map.put("userID", account.getUserID());
         map.put("day", now);
-        AccountHistory one = accountHistoryService.getOne(Wrappers.lambdaQuery(AccountHistory.class).eq(AccountHistory::getUserID, account.getUserID()).eq(AccountHistory::getDay, now));
+        QueryWrapper<AccountHistory> classQueryWrapper = Wrappers.<AccountHistory>query().allEq(map);
+        AccountHistory one = accountHistoryService.getOne(classQueryWrapper);
         if (ObjectUtils.isEmpty(one)) {
             one = new AccountHistory();
             one.setUpdateAt(localDateTime);

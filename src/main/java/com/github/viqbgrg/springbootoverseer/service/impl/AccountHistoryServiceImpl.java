@@ -1,6 +1,5 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
-import com.github.viqbgrg.springbootoverseer.entity.AccountHistory;
 import com.github.viqbgrg.springbootoverseer.mapper.AccountHistoryMapper;
 import com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl;
 import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;

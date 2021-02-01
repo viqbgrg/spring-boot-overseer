@@ -1,21 +1,20 @@
 package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.time.LocalDateTime;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author bing
- * @since 2021-01-27
+ * @since 2021-02-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -51,6 +50,8 @@ public class AccountHistory implements Serializable {
     private Integer balance;
 
     private Integer income;
+
+    private Integer refreshes;
 
     private String speedStat;
 
