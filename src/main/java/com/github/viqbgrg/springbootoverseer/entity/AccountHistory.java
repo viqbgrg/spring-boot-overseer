@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -53,11 +55,11 @@ public class AccountHistory implements Serializable {
 
     private Integer refreshes;
 
-    private Integer[] speedStat;
+    private List<Integer> speedStat;
 
-    private Integer[] pdcDetail;
+    private List<PdcDetail> pdcDetail;
 
-    private Integer[] produceStat;
+    private List<Integer> produceStat;
 
     /**
      * 更新时间

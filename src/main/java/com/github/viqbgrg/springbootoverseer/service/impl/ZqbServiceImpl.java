@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.AccountData;
 import com.github.viqbgrg.springbootoverseer.entity.AccountHistory;
+import com.github.viqbgrg.springbootoverseer.entity.PdcDetail;
 import com.github.viqbgrg.springbootoverseer.service.IAccountDataService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
@@ -137,7 +138,10 @@ public class ZqbServiceImpl implements ZqbService {
         int pdc = accountData.getMineInfo().getDev_m().getPdc();
         todayData.setPdc(todayData.getPdc() + pdc);
         todayData.setBoxPdc(todayData.getBoxPdc() + accountData.getMineInfo().getTd_box_pdc());
-        todayData.setPdcDetail(todayData.getPdcDetail().);
+        PdcDetail pdcDetail = new PdcDetail();
+        pdcDetail.setPdc(pdc);
+        pdcDetail.setMid(accountData.getp);
+        todayData.setPdcDetail(todayData.getPdcDetail().add());
 
     }
 
