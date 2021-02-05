@@ -58,4 +58,10 @@ class ZqbApiTest {
         Devices deviceInfo = zqbApi.getDeviceInfo();
         System.out.println(deviceInfo);
     }
+
+    @Test
+    void getPrivilege() throws IOException {
+        Privilege privilege = zqbApi.getPrivilege();
+        System.out.println(privilege);
+    }
 }

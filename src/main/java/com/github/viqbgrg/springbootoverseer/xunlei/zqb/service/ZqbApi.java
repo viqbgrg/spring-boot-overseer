@@ -130,14 +130,15 @@ public class ZqbApi {
      * @return
      * @throws IOException
      */
-    public String privilege() throws IOException {
+    public Privilege getPrivilege() throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("v", "1")
                 .add("appversion", APP_VERSION)
                 .add("ver", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=usr/privilege", formBody, cookies);
-        return result;
+        Privilege privilege = parsePojo(result, Privilege.class);
+        return privilege;
     }
 
     /**
@@ -153,6 +154,7 @@ public class ZqbApi {
                 .add("type", type)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=mine/devices_stat", formBody, cookies);
+        Privilege privilege = parsePojo(result, Privilege.class);
         return result;
     }
 

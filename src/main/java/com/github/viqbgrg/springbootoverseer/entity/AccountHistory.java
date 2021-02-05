@@ -32,7 +32,6 @@ public class AccountHistory implements Serializable {
     /**
      * 日期
      */
-    @TableId(value = "day", type = IdType.INPUT)
     private LocalDate day;
 
     private Integer pdc;

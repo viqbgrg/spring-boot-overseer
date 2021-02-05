@@ -2,10 +2,7 @@ package com.github.viqbgrg.springbootoverseer.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.BalanceInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.Devices;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.MineInfo;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ProduceStat;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -50,6 +47,10 @@ public class AccountData implements Serializable {
      * 账号信息
      */
     private ProduceStat produceStat;
+    /**
+     * 账号信息
+     */
+    private Privilege privilege;
 
     /**
      * 更新时间

@@ -46,6 +46,7 @@ create table account_data
     device_info  json       not null comment '账号信息',
     balance_info json       not null comment '账号信息',
     produce_stat json       not null comment '账号信息',
+    privilege json       not null comment '账号信息',
     update_at    timestamp  null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (user_i_d)
 );

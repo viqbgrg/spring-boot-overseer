@@ -65,17 +65,6 @@ class ZqbServiceImplTest {
         zqbService.getUserData(account);
     }
 
-    @Test
-    void updateAccount() {
-    }
-
-    @Test
-    void loginKey() {
-    }
-
-    @Test
-    void getProduceStat() {
-    }
 
     @Test
     void saveHistory() {

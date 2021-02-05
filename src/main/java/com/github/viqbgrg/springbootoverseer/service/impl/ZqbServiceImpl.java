@@ -12,6 +12,7 @@ import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.service.ZqbService;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbApi;
@@ -96,12 +97,18 @@ public class ZqbServiceImpl implements ZqbService {
     }
 
     @Override
-    public void getUserData(Account account) throws IOException, WkyUnknownErrorException, WkyUsernamePasswordException {
-        log.info("获取账号{}的信息", account.getUserID());
-        AccountData accountData = new AccountData();
-        accountData.setUserID(account.getUserID());
+    public void getUserData(Account account) throws IOException {
+        Long userID = account.getUserID();
+        log.info("获取账号{}的信息", userID);
+
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
+        AccountData accountData = accountDataService.getById(userID);
+        if (accountData == null) {
+            accountData = new AccountData();
+            accountData.setUserID(account.getUserID());
+            accountData.setPrivilege(zqbApi.getPrivilege());
+        }
         MineInfo mineInfo = zqbApi.getMineInfo();
         accountData.setMineInfo(mineInfo);
         Devices deviceInfo = zqbApi.getDeviceInfo();
@@ -111,7 +118,7 @@ public class ZqbServiceImpl implements ZqbService {
         ProduceStat produceStat = zqbApi.getProduceStat();
         accountData.setProduceStat(produceStat);
         accountData.setUpdateAt(LocalDateTime.now());
-        accountDataService.saveByException(accountData);
+        accountDataService.saveOrUpdate(accountData);
     }
 
     @Override
@@ -140,8 +147,8 @@ public class ZqbServiceImpl implements ZqbService {
         todayData.setBoxPdc(todayData.getBoxPdc() + accountData.getMineInfo().getTd_box_pdc());
         PdcDetail pdcDetail = new PdcDetail();
         pdcDetail.setPdc(pdc);
-        pdcDetail.setMid(accountData.getp);
-        todayData.setPdcDetail(todayData.getPdcDetail().add());
+//        pdcDetail.setMid(accountData.getp);
+//        todayData.setPdcDetail(todayData.getPdcDetail().add());
 
     }
 
