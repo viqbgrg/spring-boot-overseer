@@ -70,10 +70,10 @@ ssh.settings {
 }
 remotes {
     cc {
-        host = host
-        port = port
-        user = user
-        password = password
+        host = remote_host
+        port = 9169
+        user = remote_user
+        password = remote_password
     }
 }
 
