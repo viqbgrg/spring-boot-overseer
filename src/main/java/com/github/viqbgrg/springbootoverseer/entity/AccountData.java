@@ -52,6 +52,9 @@ public class AccountData implements Serializable {
      */
     private Privilege privilege;
 
+    private int[] zqbSpeedStat;
+    private int zqbSpeedStatTimes;
+
     /**
      * 更新时间
      */

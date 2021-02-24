@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class PdcDetail  implements Serializable {
-    private int pdc;
-    private int mid;
+public class SpeedStat implements Serializable {
+    private int[] devSpeed;
+    private Integer mid;
 }

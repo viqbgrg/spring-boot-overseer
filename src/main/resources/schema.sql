@@ -47,6 +47,8 @@ create table account_data
     balance_info json       not null comment '账号信息',
     produce_stat json       not null comment '账号信息',
     privilege json       not null comment '账号信息',
+    zqb_speed_stat json       not null comment '速度',
+    zqb_speed_stat_times int(6)       not null comment '更新时间',
     update_at    timestamp  null DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     PRIMARY KEY (user_i_d)
 );
@@ -66,6 +68,16 @@ create table account_history
     speed_stat   json       not null comment '',
     pdc_detail   json       not null comment '',
     produce_stat json       not null comment '',
+    update_at    timestamp  null     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
+    primary key (user_i_d, day)
+);
+
+drop table if exists account_income_history;
+create table account_income_history
+(
+    user_i_d     BIGINT(20) not null comment '账号id',
+    day          date       not null comment '日期',
+    pdc_detail   json       not null comment '',
     update_at    timestamp  null     DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP comment '更新时间',
     primary key (user_i_d, day)
 )

@@ -16,11 +16,11 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author bing
- * @since 2021-02-01
+ * @since 2021-02-20
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AccountHistory implements Serializable {
+public class AccountIncomeHistory implements Serializable {
 
 
     /**
@@ -34,31 +34,7 @@ public class AccountHistory implements Serializable {
      */
     private LocalDate day;
 
-    private int pdc;
-
-    private int boxPdc;
-
-    /**
-     * 速度
-     */
-    private int lastSpeed;
-
-    /**
-     * 速度
-     */
-    private int deploySpeed;
-
-    private int balance;
-
-    private int income;
-
-    private int refreshes;
-
-    private List<SpeedStat> speedStat;
-
     private List<PdcDetail> pdcDetail;
-
-    private List<ProduceStatHistory> produceStat;
 
     /**
      * 更新时间

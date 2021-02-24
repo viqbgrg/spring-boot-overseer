@@ -2,31 +2,26 @@ package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.github.viqbgrg.springbootoverseer.entity.Account;
-import com.github.viqbgrg.springbootoverseer.entity.AccountData;
-import com.github.viqbgrg.springbootoverseer.entity.AccountHistory;
-import com.github.viqbgrg.springbootoverseer.entity.PdcDetail;
-import com.github.viqbgrg.springbootoverseer.service.IAccountDataService;
-import com.github.viqbgrg.springbootoverseer.service.IAccountHistoryService;
-import com.github.viqbgrg.springbootoverseer.service.IAccountService;
-import com.github.viqbgrg.springbootoverseer.service.ZqbService;
+import com.github.viqbgrg.springbootoverseer.entity.*;
+import com.github.viqbgrg.springbootoverseer.service.*;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
-import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbApi;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbLogin;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * @author viqbg
@@ -39,12 +34,14 @@ public class ZqbServiceImpl implements ZqbService {
     private IAccountService accountService;
     private IAccountDataService accountDataService;
     private IAccountHistoryService accountHistoryService;
+    private IAccountIncomeHistoryService accountIncomeHistoryService;
 
 
-    public ZqbServiceImpl(IAccountService accountService, IAccountDataService accountDataService, IAccountHistoryService accountHistoryService) {
+    public ZqbServiceImpl(IAccountService accountService, IAccountDataService accountDataService, IAccountHistoryService accountHistoryService, IAccountIncomeHistoryService accountIncomeHistoryService) {
         this.accountService = accountService;
         this.accountDataService = accountDataService;
         this.accountHistoryService = accountHistoryService;
+        this.accountIncomeHistoryService = accountIncomeHistoryService;
     }
 
 
@@ -100,7 +97,7 @@ public class ZqbServiceImpl implements ZqbService {
     public void getUserData(Account account) throws IOException {
         Long userID = account.getUserID();
         log.info("获取账号{}的信息", userID);
-
+        LocalDateTime now = LocalDateTime.now();
         ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
         ZqbApi zqbApi = new ZqbApi(apiInfo);
         AccountData accountData = accountDataService.getById(userID);
@@ -117,8 +114,12 @@ public class ZqbServiceImpl implements ZqbService {
         accountData.setBalanceInfo(balanceInfo);
         ProduceStat produceStat = zqbApi.getProduceStat();
         accountData.setProduceStat(produceStat);
-        accountData.setUpdateAt(LocalDateTime.now());
+        accountData.setZqbSpeedStat(new int[24]);
+        accountData.setUpdateAt(now);
         accountDataService.saveOrUpdate(accountData);
+        if (now.getDayOfMonth() == LocalDate.now().getDayOfMonth()) {
+            saveHistory(account);
+        }
     }
 
     @Override
@@ -127,13 +128,19 @@ public class ZqbServiceImpl implements ZqbService {
         LocalDate now = LocalDate.now();
         LocalDateTime localDateTime = LocalDateTime.now();
         Map<String, Object> map = new HashMap<>();
-        map.put("userID", userID);
+        map.put("user_i_d", userID);
         map.put("day", now);
         QueryWrapper<AccountHistory> classQueryWrapper = Wrappers.<AccountHistory>query().allEq(map);
         AccountHistory todayData = accountHistoryService.getOne(classQueryWrapper);
-        if (ObjectUtils.isEmpty(todayData)) {
+        boolean empty = ObjectUtils.isEmpty(todayData);
+        if (empty) {
             todayData = new AccountHistory();
             todayData.setUpdateAt(localDateTime);
+            todayData.setUserID(account.getUserID());
+            todayData.setDay(now);
+            todayData.setPdcDetail(new ArrayList<>());
+            todayData.setProduceStat(new ArrayList<>());
+            todayData.setSpeedStat(new ArrayList<>());
             todayData.setRefreshes(1);
         }
         AccountData accountData = accountDataService.getById(userID);
@@ -141,15 +148,89 @@ public class ZqbServiceImpl implements ZqbService {
         if (updateAt.plusMinutes(30).isBefore(localDateTime) || updateAt.getDayOfMonth() != now.getDayOfMonth()){
             return;
         }
-        int speed = 0;
         int pdc = accountData.getMineInfo().getDev_m().getPdc();
         todayData.setPdc(todayData.getPdc() + pdc);
         todayData.setBoxPdc(todayData.getBoxPdc() + accountData.getMineInfo().getTd_box_pdc());
         PdcDetail pdcDetail = new PdcDetail();
         pdcDetail.setPdc(pdc);
-//        pdcDetail.setMid(accountData.getp);
-//        todayData.setPdcDetail(todayData.getPdcDetail().add());
+        Privilege privilege = accountData.getPrivilege();
+        pdcDetail.setMid(privilege.getMid());
+        List<PdcDetail> pdcDetail1 = todayData.getPdcDetail();
+        pdcDetail1.add(pdcDetail);
+        todayData.setPdcDetail(pdcDetail1);
+        int balance = todayData.getBalance();
+        BalanceInfo balanceInfo = accountData.getBalanceInfo();
+        Integer rCanUse = balanceInfo.getRCanUse();
+        todayData.setBalance(balance + rCanUse);
+        todayData.setIncome(balanceInfo.getRHA() + todayData.getIncome());
+        List<ProduceStatHistory> produceStat = todayData.getProduceStat();
+        ProduceStatHistory produceStatHistory = new ProduceStatHistory();
+        produceStatHistory.setMid(accountData.getPrivilege().getMid());
+        produceStatHistory.setHourlyList(accountData.getProduceStat().getHourlyList());
+        produceStat.add(produceStatHistory);
+        todayData.setProduceStat(produceStat);
+        Devices deviceInfo = accountData.getDeviceInfo();
+        List<DeviceInfo> deviceInfoList = deviceInfo.getDeviceInfoList();
+        AccountHistory finalTodayData = todayData;
+        int speed = deviceInfoList.stream().mapToInt(device -> (device.getDcdnUploadSpeed() / 1024)).sum();
+        deviceInfoList.forEach(device -> {
+            finalTodayData.setLastSpeed(finalTodayData.getLastSpeed() + device.getDcdnUploadSpeed()/1024);
+            finalTodayData.setDeploySpeed(finalTodayData.getDeploySpeed() + device.getDcdnDownloadSpeed()/1024);
+        });
+        if (accountData.getZqbSpeedStat() == null) {
+            int[] zqbSpeedStat = new int[24];
+            accountData.setZqbSpeedStat(zqbSpeedStat);
+        }
+        int[] zqbSpeedStat = accountData.getZqbSpeedStat();
+        if (accountData.getZqbSpeedStatTimes() == localDateTime.getHour()) {
+            if (accountData.getZqbSpeedStat()[23] != 0) {
+                speed = (speed + accountData.getZqbSpeedStat()[23] / 8) / 2;
+            }
+            zqbSpeedStat[23] = speed * 8;
+        }else {
+            List<Integer> intList= Arrays.stream(zqbSpeedStat).boxed().collect(Collectors.toList());
+            intList.remove(0);
+            intList.add(speed * 8);
+            zqbSpeedStat = intList.stream().mapToInt(Integer::valueOf).toArray();
+        }
+        accountData.setZqbSpeedStat(zqbSpeedStat);
+        accountData.setZqbSpeedStatTimes(localDateTime.getHour());
+        accountDataService.saveOrUpdate(accountData);
+        List<SpeedStat> speedStat = todayData.getSpeedStat();
+        SpeedStat speedStat1 = new SpeedStat();
+        int[] zqbSpeedStat1 = accountData.getZqbSpeedStat();
+        speedStat1.setDevSpeed(zqbSpeedStat1);
+        speedStat1.setMid(accountData.getPrivilege().getMid());
+        speedStat.add(speedStat1);
+        todayData.setSpeedStat(speedStat);
+        if (empty) {
+            accountHistoryService.save(todayData);
+        }else{
+            UpdateWrapper<AccountHistory> uw = new UpdateWrapper<>();
+            uw.eq("user_i_d", account.getUserID());
+            uw.eq("day", now.toString());
+            accountHistoryService.update(todayData,uw);
+        }
 
+        saveIncomeHistory(account, todayData.getPdcDetail());
+    }
+
+    private void saveIncomeHistory(Account account, List<PdcDetail> pdcDetail) {
+        log.info("{}: saveIncomeHistory", account.getUserID());
+
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("user_i_d", userID);
+//        map.put("day", now);
+//        QueryWrapper<AccountHistory> classQueryWrapper = Wrappers.<AccountHistory>query().allEq(map);
+//        AccountHistory todayData = accountHistoryService.getOne(classQueryWrapper);
+
+        LocalDate now = LocalDate.now();
+        AccountIncomeHistory accountIncomeHistory = new AccountIncomeHistory();
+        accountIncomeHistory.setDay(now);
+        accountIncomeHistory.setUserID(account.getUserID());
+        accountIncomeHistory.setPdcDetail(pdcDetail);
+        accountIncomeHistory.setUpdateAt(LocalDateTime.now());
+        accountIncomeHistoryService.saveOrUpdate(accountIncomeHistory);
     }
 
 
