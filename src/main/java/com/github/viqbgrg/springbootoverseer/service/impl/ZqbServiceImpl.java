@@ -12,7 +12,6 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePas
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbApi;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbLogin;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.ListUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -217,13 +215,6 @@ public class ZqbServiceImpl implements ZqbService {
 
     private void saveIncomeHistory(Account account, List<PdcDetail> pdcDetail) {
         log.info("{}: saveIncomeHistory", account.getUserID());
-
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("user_i_d", userID);
-//        map.put("day", now);
-//        QueryWrapper<AccountHistory> classQueryWrapper = Wrappers.<AccountHistory>query().allEq(map);
-//        AccountHistory todayData = accountHistoryService.getOne(classQueryWrapper);
-
         LocalDate now = LocalDate.now();
         AccountIncomeHistory accountIncomeHistory = new AccountIncomeHistory();
         accountIncomeHistory.setDay(now);

@@ -2,10 +2,7 @@ package com.github.viqbgrg.springbootoverseer.mybatis.typehandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.viqbgrg.springbootoverseer.entity.AccountHistory;
-import com.github.viqbgrg.springbootoverseer.entity.SpeedStat;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
-import lombok.SneakyThrows;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
@@ -14,9 +11,10 @@ import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-@MappedTypes({MineInfo.class, AccountHistory.class, BalanceInfo.class, ProduceStat.class, Devices.class, ProduceStat.class, Integer[].class, List.class, SpeedStat.class, int[].class, Privilege.class})
+@MappedTypes({MineInfo.class, BalanceInfo.class, List.class, ArrayList.class, ProduceStat.class, Devices.class, ProduceStat.class, Integer[].class, int[].class, Privilege.class})
 public class JsonTypeHandler<T> extends BaseTypeHandler<T> {
 
     private Class<T> type;
@@ -31,10 +29,13 @@ public class JsonTypeHandler<T> extends BaseTypeHandler<T> {
         this.type = type;
     }
 
-    @SneakyThrows
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType) throws SQLException {
-        ps.setString(i, objectMapper.writeValueAsString(parameter));
+        try {
+            ps.setString(i, objectMapper.writeValueAsString(parameter));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
