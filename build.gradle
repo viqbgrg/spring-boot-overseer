@@ -77,7 +77,8 @@ remotes {
     }
 }
 
-task remoteDeploy(dependsOn: [clean, bootJar]) {
+//task remoteDeploy(dependsOn: [clean, bootJar]) {
+task remoteDeploy {
     doLast {
         ssh.run {
             session(remotes.cc) {

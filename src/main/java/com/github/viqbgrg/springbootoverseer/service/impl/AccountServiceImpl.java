@@ -1,16 +1,18 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.entity.UserAccount;
 import com.github.viqbgrg.springbootoverseer.mapper.AccountMapper;
-import com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl;
-import com.github.viqbgrg.springbootoverseer.service.IAccountService;
-import com.github.viqbgrg.springbootoverseer.service.IUserAccountService;
+import com.github.viqbgrg.springbootoverseer.service.*;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.AccountInfo;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.ApiInfo;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyCustomErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbApi;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.service.ZqbLogin;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -32,8 +35,11 @@ import java.time.LocalDateTime;
 @Service
 public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> implements IAccountService {
 
-    @Autowired
-    private IUserAccountService userAccountService;
+    private final IUserAccountService userAccountService;
+
+    public AccountServiceImpl(IUserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
+    }
 
     @Override
     public void create(XunleiAccount xunleiAccount) throws WkyUnknownErrorException, IOException, WkyUsernamePasswordException {
@@ -43,6 +49,7 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> 
         AccountInfo login = ZqbLogin.login(xunleiAccount);
         Account account = new Account();
         BeanUtils.copyProperties(login, account);
+        account.setUserName(xunleiAccount.getUsername());
         account.setPassword(xunleiAccount.getPassword());
         account.setUserID(Long.parseLong(login.getUserID()));
         account.setCreateAt(now);
@@ -51,12 +58,45 @@ public class AccountServiceImpl extends BaseServiceImpl<AccountMapper, Account> 
         UserAccount userAccount = new UserAccount();
         userAccount.setUserID(account.getUserID());
         userAccount.setUserId(user.getId());
-        userAccount.setCreateAt(LocalDateTime.now());
+        userAccount.setCreateAt(now);
+        userAccount.setUpdateAt(now);
         userAccountService.save(userAccount);
     }
 
     @Override
     public void deleteAccount(String accountId) {
         this.removeByIdMyException(accountId);
+    }
+
+    @Override
+    public List<Account> getAccountList(List<Long> userIds) {
+        List<Account> accounts = this.baseMapper.selectList(new LambdaQueryWrapper<Account>().in(Account::getUserID, userIds));
+        return accounts;
+    }
+
+    @Override
+    public void collectAll(List<Account> accounts) {
+        accounts.forEach(account -> {
+            try {
+                ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
+                ZqbApi zqbApi = new ZqbApi(apiInfo);
+                zqbApi.collect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void drawcashAll(List<Account> accounts) {
+        accounts.forEach(account -> {
+            try {
+                ApiInfo apiInfo = new ApiInfo(account.getSessionID(), account.getUserID(), account.getNickName());
+                ZqbApi zqbApi = new ZqbApi(apiInfo);
+                zqbApi.drawCash();
+            } catch (IOException | WkyCustomErrorException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

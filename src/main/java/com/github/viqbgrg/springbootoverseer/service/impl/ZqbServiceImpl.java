@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -212,7 +213,6 @@ public class ZqbServiceImpl implements ZqbService {
 
         saveIncomeHistory(account, todayData.getPdcDetail());
     }
-
     private void saveIncomeHistory(Account account, List<PdcDetail> pdcDetail) {
         log.info("{}: saveIncomeHistory", account.getUserID());
         LocalDate now = LocalDate.now();

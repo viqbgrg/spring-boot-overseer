@@ -64,4 +64,26 @@ class ZqbApiTest {
         Privilege privilege = zqbApi.getPrivilege();
         System.out.println(privilege);
     }
+
+    @Test
+    void drawcashInfo() throws IOException {
+        DrawcashInfo s = zqbApi.drawcashInfo();
+        System.out.println(s);
+    }
+
+    @Test
+    void drawCash() {
+    }
+
+    @Test
+    void drawpkg() {
+    }
+
+    @Test
+    void privilege() {
+    }
+
+    @Test
+    void collect() {
+    }
 }

@@ -102,7 +102,7 @@ public class ZqbLogin {
             LoginErrorDto loginErrorDto = JsonUtil.stringToPOJO(content, LoginErrorDto.class);
             if ("3".equals(loginErrorDto.getErrorCode())) {
                 throw new WkyUsernamePasswordException(loginErrorDto.getErrorDesc());
-            } else if ("15".equals(loginErrorDto.getErrorCode())) {
+            } else if ("12".equals(loginErrorDto.getErrorCode())) {
                 throw new WkyLoginKeyExceedTimeException();
             } else {
                 throw new WkyUnknownErrorException(loginErrorDto.getErrorDesc());

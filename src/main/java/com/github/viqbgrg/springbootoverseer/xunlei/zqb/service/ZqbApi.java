@@ -9,6 +9,7 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.HttpUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.common.JsonUtil;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.*;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyApiErrorException;
+import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyCustomErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyExceedTimeException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -57,13 +58,14 @@ public class ZqbApi {
         return produceStat;
     }
 
-    public String drawcashInfo() throws IOException {
+    public DrawcashInfo drawcashInfo() throws IOException {
         RequestBody formBody = new FormBody.Builder()
                 .add("v", "1")
                 .add("appversion", APP_VERSION)
                 .build();
         String result = HttpUtil.apiPost(URL + "/index.php?r=usr/drawcashInfo", formBody, cookies);
-        return result;
+        DrawcashInfo drawcashInfo = parsePojo(result, DrawcashInfo.class);
+        return drawcashInfo;
     }
 
     /**
@@ -80,6 +82,24 @@ public class ZqbApi {
         String result = HttpUtil.apiPost(URL + "/index.php?r=usr/asset", formBody, cookies);
         BalanceInfo balanceInfo = parsePojo(result, BalanceInfo.class);
         return balanceInfo;
+    }
+
+    public void drawCash() throws IOException, WkyCustomErrorException {
+        DrawcashInfo drawcashInfo = drawcashInfo();
+        if (drawcashInfo.getR() != 0){
+            throw new WkyCustomErrorException(drawcashInfo.toString());
+        }
+        if (drawcashInfo.getIsTm() == 0) {
+            throw new WkyCustomErrorException(drawcashInfo.getTmTip());
+        }
+        BalanceInfo balanceInfo = getBalanceInfo();
+        Double wcPkg = balanceInfo.getWcPkg();
+        if (wcPkg < 2){
+            return;
+        }
+        double i = wcPkg > 200 ? 200 : wcPkg;
+        String drawpkg = drawpkg(i);
+        log.info(drawpkg);
     }
 
     /**

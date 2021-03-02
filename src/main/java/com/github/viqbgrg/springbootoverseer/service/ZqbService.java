@@ -6,6 +6,7 @@ import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErro
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 public interface ZqbService {
 
