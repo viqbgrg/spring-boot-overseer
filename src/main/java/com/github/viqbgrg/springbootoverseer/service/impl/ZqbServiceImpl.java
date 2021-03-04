@@ -221,7 +221,10 @@ public class ZqbServiceImpl implements ZqbService {
         accountIncomeHistory.setUserID(account.getUserID());
         accountIncomeHistory.setPdcDetail(pdcDetail);
         accountIncomeHistory.setUpdateAt(LocalDateTime.now());
-        accountIncomeHistoryService.saveOrUpdate(accountIncomeHistory);
+        UpdateWrapper<AccountIncomeHistory> uw = new UpdateWrapper<>();
+        uw.eq("user_i_d", account.getUserID());
+        uw.eq("day", now.toString());
+        accountIncomeHistoryService.saveOrUpdate(accountIncomeHistory, uw);
     }
 
 
