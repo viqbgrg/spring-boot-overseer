@@ -1,7 +1,9 @@
 package com.github.viqbgrg.springbootoverseer.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.github.viqbgrg.springbootoverseer.entity.*;
@@ -216,15 +218,17 @@ public class ZqbServiceImpl implements ZqbService {
     private void saveIncomeHistory(Account account, List<PdcDetail> pdcDetail) {
         log.info("{}: saveIncomeHistory", account.getUserID());
         LocalDate now = LocalDate.now();
-        AccountIncomeHistory accountIncomeHistory = new AccountIncomeHistory();
-        accountIncomeHistory.setDay(now);
-        accountIncomeHistory.setUserID(account.getUserID());
-        accountIncomeHistory.setPdcDetail(pdcDetail);
-        accountIncomeHistory.setUpdateAt(LocalDateTime.now());
-        UpdateWrapper<AccountIncomeHistory> uw = new UpdateWrapper<>();
-        uw.eq("user_i_d", account.getUserID());
-        uw.eq("day", now.toString());
-        accountIncomeHistoryService.saveOrUpdate(accountIncomeHistory, uw);
+        AccountIncomeHistory accountIncomeHistory = accountIncomeHistoryService.getOne(new QueryWrapper<AccountIncomeHistory>().eq("user_i_d",account.getUserID()).eq("day", now.toString()));
+        if (accountIncomeHistory == null) {
+            accountIncomeHistory = new AccountIncomeHistory();
+            accountIncomeHistory.setDay(now);
+            accountIncomeHistory.setUserID(account.getUserID());
+            accountIncomeHistory.setPdcDetail(pdcDetail);
+            accountIncomeHistory.setUpdateAt(LocalDateTime.now());
+            accountIncomeHistoryService.save(accountIncomeHistory);
+        }else{
+            accountIncomeHistoryService.update(accountIncomeHistory, new LambdaUpdateWrapper<AccountIncomeHistory>().set(AccountIncomeHistory::getPdcDetail, pdcDetail).set(AccountIncomeHistory::getUpdateAt, now));
+        }
     }
 
 
