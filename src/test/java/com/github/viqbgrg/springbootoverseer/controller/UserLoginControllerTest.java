@@ -1,7 +1,7 @@
 package com.github.viqbgrg.springbootoverseer.controller;
 
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
-import com.github.viqbgrg.springbootoverseer.domain.vo.UserInfoVo;
+import com.github.viqbgrg.springbootoverseer.domain.vo.CurrentUserVo;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class UserLoginControllerTest {
         String jwt = "Bearer " + JwtUtils.sign("username", "username");
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, jwt);
-        ResponseEntity<UserInfoVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), UserInfoVo.class);
+        ResponseEntity<CurrentUserVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), CurrentUserVo.class);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
@@ -64,7 +64,7 @@ public class UserLoginControllerTest {
     void userInfoNoTokenTest() {
         HttpHeaders headers = new HttpHeaders();
         headers.add(AUTHORIZATION_HEADER, "");
-        ResponseEntity<UserInfoVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), UserInfoVo.class);
+        ResponseEntity<CurrentUserVo> result = this.restTemplate.exchange("/user/userinfo", HttpMethod.GET, new HttpEntity<>(headers), CurrentUserVo.class);
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 

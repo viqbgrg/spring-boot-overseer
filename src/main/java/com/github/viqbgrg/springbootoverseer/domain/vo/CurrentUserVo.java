@@ -3,7 +3,7 @@ package com.github.viqbgrg.springbootoverseer.domain.vo;
 import lombok.Data;
 
 @Data
-public class UserInfoVo {
+public class CurrentUserVo {
     private String username;
     private String email;
 }

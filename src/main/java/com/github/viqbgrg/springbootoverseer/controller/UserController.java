@@ -4,10 +4,13 @@ package com.github.viqbgrg.springbootoverseer.controller;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserLoginDto;
 import com.github.viqbgrg.springbootoverseer.domain.dto.UserSignInDto;
-import com.github.viqbgrg.springbootoverseer.domain.vo.UserInfoVo;
+import com.github.viqbgrg.springbootoverseer.domain.vo.CurrentUserVo;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import com.github.viqbgrg.springbootoverseer.utils.JwtUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -29,8 +32,9 @@ import static com.github.viqbgrg.springbootoverseer.shiro.JwtAuthFilter.AUTHORIZ
  * @author bing
  * @since 2020-12-25
  */
+@Api(value = "登陆", tags = "login")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/login")
 @Slf4j
 public class UserController {
     private IUserService userService;
@@ -48,13 +52,14 @@ public class UserController {
         return userService.signIn(users) ? ResponseEntity.status(HttpStatus.CREATED).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<JWTToken> login(@Validated @RequestBody UserLoginDto userLoginDto) {
+    @PostMapping("/account")
+    @ApiOperation(value = "login", nickname = "login")
+    public ResponseEntity<JWTToken> login(@Validated @ApiParam(name = "账号密码", required = true) @RequestBody UserLoginDto userLoginDto) {
         UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(userLoginDto.getUsername(), userLoginDto.getPassword());
         Subject subject = SecurityUtils.getSubject();
         subject.login(usernamePasswordToken);
         HttpHeaders httpHeaders = new HttpHeaders();
-        String jwt =JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getUsername());
+        String jwt = JwtUtils.sign(userLoginDto.getUsername(), userLoginDto.getUsername());
         httpHeaders.add(AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
@@ -62,20 +67,21 @@ public class UserController {
     @GetMapping("/logout")
     public ResponseEntity<Void> logout() {
         Subject subject = SecurityUtils.getSubject();
-        if(subject.getPrincipals() != null) {
+        if (subject.getPrincipals() != null) {
             log.info("为空");
         }
         SecurityUtils.getSubject().logout();
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/userinfo")
-    public ResponseEntity<UserInfoVo> userinfo() {
-        UserInfoVo userInfoVo = new UserInfoVo();
+    @GetMapping("/currentUser")
+    @ApiOperation(value = "用户信息", nickname = "currentUser", tags = "api")
+    public ResponseEntity<CurrentUserVo> currentUser() {
+        CurrentUserVo currentUserVo = new CurrentUserVo();
         Subject subject = SecurityUtils.getSubject();
-        User User = (User)subject.getPrincipal();
-        BeanUtils.copyProperties(User, userInfoVo);
-        return ResponseEntity.ok(userInfoVo);
+        User User = (User) subject.getPrincipal();
+        BeanUtils.copyProperties(User, currentUserVo);
+        return ResponseEntity.ok(currentUserVo);
     }
 
 
