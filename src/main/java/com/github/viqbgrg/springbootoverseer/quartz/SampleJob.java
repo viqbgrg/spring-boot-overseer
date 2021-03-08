@@ -31,9 +31,7 @@ public class SampleJob extends QuartzJobBean {
         List<Account> list = accountService.list();
         list.forEach(account -> {
             try {
-                if (false) {
-                    zqbService.getUserData(account);
-                }
+                zqbService.getUserData(account);
             } catch (WkyExceedTimeException e) {
                 try {
                     zqbService.loginKey(account);
