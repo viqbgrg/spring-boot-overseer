@@ -218,16 +218,19 @@ public class ZqbServiceImpl implements ZqbService {
     private void saveIncomeHistory(Account account, List<PdcDetail> pdcDetail) {
         log.info("{}: saveIncomeHistory", account.getUserID());
         LocalDate now = LocalDate.now();
+        LocalDateTime now1 = LocalDateTime.now();
         AccountIncomeHistory accountIncomeHistory = accountIncomeHistoryService.getOne(new QueryWrapper<AccountIncomeHistory>().eq("user_i_d",account.getUserID()).eq("day", now.toString()));
         if (accountIncomeHistory == null) {
             accountIncomeHistory = new AccountIncomeHistory();
             accountIncomeHistory.setDay(now);
             accountIncomeHistory.setUserID(account.getUserID());
             accountIncomeHistory.setPdcDetail(pdcDetail);
-            accountIncomeHistory.setUpdateAt(LocalDateTime.now());
+            accountIncomeHistory.setUpdateAt(now1);
             accountIncomeHistoryService.save(accountIncomeHistory);
         }else{
-            accountIncomeHistoryService.update(accountIncomeHistory, new LambdaUpdateWrapper<AccountIncomeHistory>().set(AccountIncomeHistory::getPdcDetail, pdcDetail).set(AccountIncomeHistory::getUpdateAt, now));
+            accountIncomeHistory.setPdcDetail(pdcDetail);
+            accountIncomeHistory.setUpdateAt(now1);
+            accountIncomeHistoryService.update(accountIncomeHistory, new LambdaUpdateWrapper<AccountIncomeHistory>().eq(AccountIncomeHistory::getUserID, account.getUserID()).eq(AccountIncomeHistory::getDay, now));
         }
     }
 
