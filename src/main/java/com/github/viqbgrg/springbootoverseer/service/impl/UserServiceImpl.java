@@ -7,7 +7,6 @@ import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.entity.UserAccount;
 import com.github.viqbgrg.springbootoverseer.exception.UsernameExistException;
 import com.github.viqbgrg.springbootoverseer.mapper.UserMapper;
-import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.service.IUserAccountService;
 import com.github.viqbgrg.springbootoverseer.service.IUserService;
 import org.apache.shiro.authc.credential.DefaultPasswordService;
@@ -29,11 +28,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
     private IUserAccountService userAccountService;
-    private IAccountService accountService;
 
-    public UserServiceImpl(IUserAccountService userAccountService, IAccountService accountService) {
+    public UserServiceImpl(IUserAccountService userAccountService) {
         this.userAccountService = userAccountService;
-        this.accountService = accountService;
     }
 
     @Override
@@ -61,8 +58,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public List<Account> getAllAccount(Long userId) {
         List<UserAccount> allAccount = userAccountService.getAllAccount(userId);
         List<Long> collect = allAccount.stream().map(account -> account.getUserId()).collect(Collectors.toList());
-        List<Account> accountList = accountService.getAccountList(collect);
-        return accountList;
+//        List<Account> accountList = accountService.getAccountList(collect);
+        return null;
     }
 
 }

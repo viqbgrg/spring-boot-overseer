@@ -3,10 +3,12 @@ package com.github.viqbgrg.springbootoverseer.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.viqbgrg.springbootoverseer.config.TestConfig;
 import com.github.viqbgrg.springbootoverseer.domain.dto.XunleiAccountDto;
+import com.github.viqbgrg.springbootoverseer.domain.vo.AccountUserInfo;
 import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.service.IAccountService;
 import com.github.viqbgrg.springbootoverseer.shiro.AbstractShiroTest;
 import org.apache.shiro.subject.Subject;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,10 @@ import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 @WebMvcTest(AccountController.class)
 @ImportAutoConfiguration(classes = {ProblemAutoConfiguration.class, ProblemJacksonAutoConfiguration.class
         , ProblemJacksonWebMvcAutoConfiguration.class
@@ -78,4 +79,23 @@ class AccountControllerTest extends AbstractShiroTest {
         this.mockMvc.perform(delete("/account/1")).andExpect(status().isOk());
     }
 
+    @Test
+    void create() {
+    }
+
+
+    @Test
+    void collectAll() {
+    }
+
+    @Test
+    void drawcashAll() {
+    }
+
+    @Test
+    void getAccountInfo() throws Exception {
+        when(accountService.getAccountUserInfo(any())).thenReturn(new AccountUserInfo());
+        this.mockMvc.perform(get("/account/accountInfo"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.mpdc", Matchers.notNullValue()));
+    }
 }

@@ -1,8 +1,8 @@
 package com.github.viqbgrg.springbootoverseer.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.viqbgrg.springbootoverseer.domain.vo.AccountUserInfo;
 import com.github.viqbgrg.springbootoverseer.entity.Account;
-import com.github.viqbgrg.springbootoverseer.entity.User;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.entity.XunleiAccount;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUnknownErrorException;
 import com.github.viqbgrg.springbootoverseer.xunlei.zqb.exception.WkyUsernamePasswordException;
@@ -25,7 +25,9 @@ public interface IAccountService extends IService<Account> {
 
     List<Account> getAccountList(List<Long> userIds);
 
-    void collectAll(List<Account> accounts);
+    void collectAll(Long userId);
 
-    void drawcashAll(List<Account> accounts);
+    void drawcashAll(Long userId);
+
+    AccountUserInfo getAccountUserInfo(Long id);
 }

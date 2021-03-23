@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class AccountServiceImplTest {
 
@@ -19,6 +17,31 @@ class AccountServiceImplTest {
 
     @Test
     void getQianTest() {
+
+    }
+
+    @Test
+    void create() {
+    }
+
+    @Test
+    void deleteAccount() {
+    }
+
+    @Test
+    void getAccountList() {
+    }
+
+    @Test
+    void collectAll() {
+    }
+
+    @Test
+    void drawcashAll() {
+    }
+
+    @Test
+    void getAccountUserInfo() {
 
     }
 }
