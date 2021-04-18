@@ -12,6 +12,9 @@ import org.zalando.problem.spring.web.advice.ProblemHandling;
 
 import javax.annotation.Nullable;
 
+import static org.zalando.problem.Status.NOT_FOUND;
+import static org.zalando.problem.Status.UNAUTHORIZED;
+
 @ControllerAdvice
 public class ExceptionTranslator implements ProblemHandling {
     @Override
@@ -19,7 +22,7 @@ public class ExceptionTranslator implements ProblemHandling {
         Problem problem = Problem.builder()
                 .withTitle("非法请求")
                 .withDetail(String.format("路径: %s 不存在", exception.getRequestURL()))
-                .withStatus(defaultConstraintViolationStatus())
+                .withStatus(NOT_FOUND)
                 .build();
         return create(exception, problem, request);
     }
@@ -29,7 +32,7 @@ public class ExceptionTranslator implements ProblemHandling {
         Problem problem = Problem.builder()
                 .withTitle("用户名密码错误")
                 .withDetail(String.format("用户名密码错误"))
-                .withStatus(defaultConstraintViolationStatus())
+                .withStatus(UNAUTHORIZED)
                 .build();
         return create(ex, problem, request);
     }
@@ -39,7 +42,7 @@ public class ExceptionTranslator implements ProblemHandling {
         Problem problem = Problem.builder()
                 .withTitle("用户名不存在")
                 .withDetail(String.format("用户名不存在"))
-                .withStatus(defaultConstraintViolationStatus())
+                .withStatus(UNAUTHORIZED)
                 .build();
         return create(ex, problem, request);
     }

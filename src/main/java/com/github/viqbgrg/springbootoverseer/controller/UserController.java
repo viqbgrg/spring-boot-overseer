@@ -64,8 +64,9 @@ public class UserController {
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
-    @GetMapping("/logout")
-    public ResponseEntity<Void> logout() {
+    @GetMapping("/outLogin")
+    @ApiOperation(value = "用户退出", nickname = "outLogin")
+    public ResponseEntity<Void> outLogin() {
         Subject subject = SecurityUtils.getSubject();
         if (subject.getPrincipals() != null) {
             log.info("为空");
