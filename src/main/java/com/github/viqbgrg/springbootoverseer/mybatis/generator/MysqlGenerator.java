@@ -58,7 +58,7 @@ public class MysqlGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig.
                 Builder("jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE;INIT=RUNSCRIPT FROM 'src/main/resources/schema.sql'","","")
-                .driver("org.h2.Driver").dbType(DbType.H2).build();
+                .build();
 
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator(dsc);
@@ -83,19 +83,19 @@ public class MysqlGenerator {
         });
         cfg.addFileOutConfig(focList);
         mpg.injection(cfg);
-        mpg.template(new TemplateConfig.Builder().all().mapper("mapper.java").build().disable(TemplateType.XML));
+        mpg.template(new TemplateConfig.Builder().mapper("mapper.java").build().disable(TemplateType.XML));
         // 策略配置
         StrategyConfig strategy = new StrategyConfig.Builder().addInclude(scanner("表名")).addTablePrefix(pc.getModuleName() + "_")
-                .entityBuilder().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
-                .lombok(true).idType(IdType.INPUT).controllerBuilder().restStyle(true).hyphenStyle(true).serviceBuilder()
+                .entityBuilder().enableLombok().naming(NamingStrategy.underline_to_camel).columnNaming(NamingStrategy.underline_to_camel)
+                .idType(IdType.INPUT).controllerBuilder()
+                .serviceBuilder()
                 .superServiceImplClass("com.github.viqbgrg.springbootoverseer.service.BaseServiceImpl")
                 .superServiceClass("com.github.viqbgrg.springbootoverseer.service.BaseService")
                 .build();
 
         mpg.strategy(strategy);
         // 选择 freemarker 引擎需要指定如下加，注意 pom 依赖必须有！
-        mpg.engine(new FreemarkerTemplateEngine());
-        mpg.execute();
+        mpg.execute(new FreemarkerTemplateEngine());
     }
 
 }
